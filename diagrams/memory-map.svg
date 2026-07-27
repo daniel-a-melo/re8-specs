@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 560" font-family="Inter, Helvetica, Arial, sans-serif">
+<style>
+.t{font-size:13px;fill:#20262e;font-weight:600}.s{font-size:10.5px;fill:#4d5560}
+.a{font-size:11px;fill:#b9770e;font-family:'JetBrains Mono',monospace;font-weight:600}
+.hdr{font-size:11px;fill:#0e7a6c;font-weight:700;letter-spacing:.08em}
+.lbl{font-size:10px;fill:#4d5560;font-style:italic}
+.blk{stroke:#20262e;stroke-width:1.4}
+.w{stroke:#8b929c;stroke-width:1.2;fill:none;stroke-dasharray:4 3}
+</style>
+<text x="20" y="26" class="hdr">re8 — CPU ADDRESS SPACE (64 KB)</text>
+
+<!-- main map -->
+<rect class="blk" x="60" y="50" width="300" height="52" fill="#e8eef3"/>
+<text x="72" y="72" class="t">Zero page</text><text x="72" y="90" class="s">$00–$1F runtime · $20–$7F prog8 · $80–$FF free</text>
+<text x="20" y="76" class="a">$0000</text>
+
+<rect class="blk" x="60" y="102" width="300" height="34" fill="#e8eef3"/>
+<text x="72" y="124" class="t">Hardware stack</text>
+<text x="20" y="124" class="a">$0100</text>
+
+<rect class="blk" x="60" y="136" width="300" height="86" fill="#e8eef3"/>
+<text x="72" y="160" class="t">General RAM</text>
+<text x="72" y="178" class="s">≈14.4 KB available to game code</text>
+<text x="72" y="194" class="s">(after SDK: shadow OAM 1 KB, FIFOs, tables)</text>
+<text x="72" y="212" class="lbl">16 KB SRAM total — A14 tied low</text>
+<text x="20" y="160" class="a">$0200</text>
+
+<rect class="blk" x="60" y="222" width="300" height="86" fill="#e3efec"/>
+<text x="72" y="246" class="t">oito register file</text>
+<text x="72" y="264" class="s">$4000–$40FF decoded (see right)</text>
+<text x="72" y="282" class="s">$4FFF Ghost Debug Port</text>
+<text x="72" y="300" class="lbl">all other addresses read $00, writes ignored</text>
+<text x="20" y="246" class="a">$4000</text>
+
+<rect class="blk" x="60" y="308" width="300" height="86" fill="#fdf3e0"/>
+<text x="72" y="332" class="t">Cartridge — switchable</text>
+<text x="72" y="350" class="s">bank = BANK_SELECT masked to bank_count−1</text>
+<text x="72" y="368" class="s">also the <tspan font-weight="600">save window</tspan> when SAVE_CTRL.0 = 1</text>
+<text x="72" y="386" class="lbl">bank 0 begins with the 64-byte header</text>
+<text x="20" y="332" class="a">$8000</text>
+
+<rect class="blk" x="60" y="394" width="300" height="86" fill="#fdf3e0"/>
+<text x="72" y="418" class="t">Cartridge — fixed</text>
+<text x="72" y="436" class="s">always bank_count − 1 (last physical bank)</text>
+<text x="72" y="454" class="s">engine code + vectors $FFFA–$FFFF</text>
+<text x="20" y="418" class="a">$C000</text>
+<text x="20" y="478" class="a">$FFFF</text>
+
+<!-- boot overlay -->
+<rect x="360" y="394" width="14" height="46" fill="#0e7a6c" opacity=".25"/>
+<path class="w" d="M374 417H430"/>
+<rect class="blk" x="430" y="386" width="240" height="86" fill="#e3efec"/>
+<text x="442" y="408" class="t">Boot overlay — $E000–$FFFF</text>
+<text x="442" y="426" class="s">BOOT_SRC 0 = internal 2 KB stub ×4 mirror</text>
+<text x="442" y="442" class="s">BOOT_SRC 1 = boot-flash page (BOOT_BANK)</text>
+<text x="442" y="458" class="s">BOOT_SRC 2 = disabled (one-way until RES̄)</text>
+
+<!-- register block detail -->
+<text x="430" y="66" class="hdr">REGISTER FILE $4000–$40FF</text>
+<g class="s">
+<rect class="blk" x="430" y="76" width="240" height="22" fill="#fdfcf9"/><text x="440" y="91"><tspan class="a">$4000</tspan>  System / video / IRQ / boot</text>
+<rect class="blk" x="430" y="98" width="240" height="22" fill="#fdfcf9"/><text x="440" y="113"><tspan class="a">$4010</tspan>  Background scroll</text>
+<rect class="blk" x="430" y="120" width="240" height="22" fill="#fdfcf9"/><text x="440" y="135"><tspan class="a">$4020</tspan>  Blitter</text>
+<rect class="blk" x="430" y="142" width="240" height="22" fill="#fdfcf9"/><text x="440" y="157"><tspan class="a">$4030</tspan>  Collision</text>
+<rect class="blk" x="430" y="164" width="240" height="22" fill="#fdfcf9"/><text x="440" y="179"><tspan class="a">$4040</tspan>  VRAM port (auto-increment)</text>
+<rect class="blk" x="430" y="186" width="240" height="22" fill="#fdfcf9"/><text x="440" y="201"><tspan class="a">$4050</tspan>  Palette port (64 × 12-bit)</text>
+<rect class="blk" x="430" y="208" width="240" height="22" fill="#fdfcf9"/><text x="440" y="223"><tspan class="a">$4060</tspan>  Sprite / OAM + DMA</text>
+<rect class="blk" x="430" y="230" width="240" height="22" fill="#fdfcf9"/><text x="440" y="245"><tspan class="a">$4070</tspan>  Input · keyboard · port mode</text>
+<rect class="blk" x="430" y="252" width="240" height="22" fill="#fdfcf9"/><text x="440" y="267"><tspan class="a">$4080</tspan>  Mapper · save · cart config</text>
+<rect class="blk" x="430" y="274" width="240" height="22" fill="#fdfcf9"/><text x="440" y="289"><tspan class="a">$4090</tspan>  Text overlay + font port</text>
+<rect class="blk" x="430" y="296" width="240" height="22" fill="#fdfcf9"/><text x="440" y="311"><tspan class="a">$40A0</tspan>  APU indirect port</text>
+<rect class="blk" x="430" y="318" width="240" height="22" fill="#fdfcf9"/><text x="440" y="333"><tspan class="a">$40B0</tspan>  Mouse + hardware cursor</text>
+<rect class="blk" x="430" y="340" width="240" height="22" fill="#fdfcf9"/><text x="440" y="355"><tspan class="a">$40C0</tspan>  Hit-test / pick</text>
+</g>
+
+<!-- VRAM -->
+<text x="700" y="66" class="hdr">VRAM 128 KB (private)</text>
+<rect class="blk" x="700" y="76" width="160" height="40" fill="#e3efec"/><text x="710" y="92" class="s">Plane A name-table</text><text x="710" y="108" class="lbl">4 KB · 64×32 cells</text>
+<rect class="blk" x="700" y="116" width="160" height="40" fill="#e3efec"/><text x="710" y="132" class="s">Plane B name-table</text><text x="710" y="148" class="lbl">4 KB</text>
+<rect class="blk" x="700" y="156" width="160" height="34" fill="#e3efec"/><text x="710" y="172" class="s">OAM 128×8 B</text><text x="710" y="186" class="lbl">1 KB (shadowed on-die)</text>
+<rect class="blk" x="700" y="190" width="160" height="34" fill="#e3efec"/><text x="710" y="206" class="s">Text char-map</text><text x="710" y="220" class="lbl">4,480 B · 80×28</text>
+<rect class="blk" x="700" y="224" width="160" height="80" fill="#e3efec"/><text x="710" y="244" class="s">Tile / pattern space</text><text x="710" y="260" class="lbl">≈118 KB · up to ~3,700 tiles</text><text x="710" y="276" class="lbl">BG + sprite patterns +</text><text x="710" y="290" class="lbl">blitter dynamic tile pool</text>
+<text x="700" y="326" class="lbl">All address arithmetic wraps mod 128 KB.</text>
+<text x="700" y="342" class="lbl">Palette RAM is on-die, not in VRAM.</text>
+
+<text x="60" y="512" class="lbl">Reset defaults: BOOT_SRC = 0 (stub mapped) · BOOT_FLASH_WE = 0 · SAVE_CTRL.1 = 1 (save write-protected) · all else zero.</text>
+<text x="60" y="532" class="lbl">Cartridge geometry (bank count, save type/size) is programmed by boot firmware into CART_CONFIG_* and locked before handoff.</text>
+</svg>

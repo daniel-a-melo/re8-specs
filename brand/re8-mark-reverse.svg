@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="re8 logo mark, reverse">
+  <title>re8 mark — pixel eight, for teal or dark backgrounds</title>
+  <rect x="0" y="0" width="72" height="72" rx="18" fill="#ffffff"/>
+  <g fill="#0e7a6c">
+    <rect x="20" y="12" width="10" height="10" rx="2.5"/><rect x="31" y="12" width="10" height="10" rx="2.5"/><rect x="42" y="12" width="10" height="10" rx="2.5"/>
+    <rect x="14" y="23" width="10" height="10" rx="2.5"/><rect x="48" y="23" width="10" height="10" rx="2.5"/>
+    <rect x="20" y="31" width="10" height="10" rx="2.5" fill="#2fbfa9"/><rect x="31" y="31" width="10" height="10" rx="2.5" fill="#2fbfa9"/><rect x="42" y="31" width="10" height="10" rx="2.5" fill="#2fbfa9"/>
+    <rect x="14" y="39" width="10" height="10" rx="2.5"/><rect x="48" y="39" width="10" height="10" rx="2.5"/>
+    <rect x="20" y="50" width="10" height="10" rx="2.5"/><rect x="31" y="50" width="10" height="10" rx="2.5"/><rect x="42" y="50" width="10" height="10" rx="2.5"/>
+  </g>
+</svg>

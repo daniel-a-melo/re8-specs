@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Inter, Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#334"/></marker></defs>
+<style>
+.t{font-size:12.5px;fill:#20262e;font-weight:600}.s{font-size:10.5px;fill:#4d5560}
+.a{font-size:10px;fill:#b9770e;font-family:'JetBrains Mono',monospace;font-weight:600}
+.hdr{font-size:11px;fill:#0e7a6c;font-weight:700;letter-spacing:.08em}
+.lbl{font-size:9.5px;fill:#4d5560;font-style:italic}
+.box{fill:#fdfcf9;stroke:#20262e;stroke-width:1.5;rx:8}
+.oito{fill:#e3efec;stroke:#0e7a6c;stroke-width:2;rx:8}
+.w{stroke:#334;stroke-width:1.6;fill:none}
+</style>
+<text x="20" y="26" class="hdr">re8 — AUDIO SIGNAL CHAIN (16-voice APU)</text>
+
+<rect class="oito" x="30" y="52" width="240" height="248"/>
+<text x="150" y="76" class="t" text-anchor="middle">oito APU</text>
+<rect class="box" x="48" y="92" width="204" height="40"/>
+<text x="150" y="110" class="s" text-anchor="middle">4 × PSG — 3 pulse + 1 noise</text>
+<text x="150" y="125" class="lbl" text-anchor="middle">12-bit period @ master÷12 · 27.3 Hz–112 kHz</text>
+<rect class="box" x="48" y="138" width="204" height="40"/>
+<text x="150" y="156" class="s" text-anchor="middle">8 × wavetable</text>
+<text x="150" y="171" class="lbl" text-anchor="middle">32-sample slots · 512 B on-die wave RAM</text>
+<rect class="box" x="48" y="184" width="204" height="44"/>
+<text x="150" y="202" class="s" text-anchor="middle">4 × PCM / IMA-ADPCM</text>
+<text x="150" y="217" class="lbl" text-anchor="middle">streamed from cart ROM by bus-master steal</text>
+<rect class="box" x="48" y="234" width="204" height="48"/>
+<text x="150" y="252" class="s" text-anchor="middle">mixer — 20-bit accumulator</text>
+<text x="150" y="267" class="lbl" text-anchor="middle">×volume → hard clamp to 16-bit</text>
+<text x="150" y="279" class="a" text-anchor="middle">47,940.3 Hz</text>
+
+<path class="w" d="M270 150H340" marker-end="url(#a)"/>
+<text x="305" y="142" class="lbl" text-anchor="middle">I²S</text>
+<text x="305" y="166" class="a" text-anchor="middle">BCLK 3.068 MHz</text>
+<text x="305" y="180" class="a" text-anchor="middle">MCLK 6.136 MHz</text>
+
+<rect class="box" x="340" y="120" width="180" height="62"/>
+<text x="430" y="144" class="t" text-anchor="middle">DIT4192</text>
+<text x="430" y="161" class="s" text-anchor="middle">I²S → S/PDIF transmitter</text>
+<text x="430" y="175" class="a" text-anchor="middle">3.3 V</text>
+
+<path class="w" d="M520 151H590" marker-end="url(#a)"/>
+<rect class="box" x="590" y="120" width="180" height="62"/>
+<text x="680" y="144" class="t" text-anchor="middle">TOSLINK module</text>
+<text x="680" y="161" class="s" text-anchor="middle">optical output</text>
+<text x="680" y="175" class="a" text-anchor="middle">3.3 V</text>
+<path class="w" d="M770 151H840" marker-end="url(#a)"/>
+<text x="855" y="147" class="s" text-anchor="middle">S/PDIF</text>
+<text x="855" y="162" class="s" text-anchor="middle">out</text>
+
+<path class="w" d="M270 258H340" marker-end="url(#a)"/>
+<text x="305" y="250" class="lbl" text-anchor="middle">2× PWM</text>
+<text x="305" y="272" class="a" text-anchor="middle">Δ-Σ 2nd order</text>
+<text x="305" y="286" class="a" text-anchor="middle">master÷8</text>
+
+<rect class="box" x="340" y="228" width="180" height="62"/>
+<text x="430" y="252" class="t" text-anchor="middle">NJM4556 stage</text>
+<text x="430" y="269" class="s" text-anchor="middle">3rd-order LPF @20 kHz</text>
+<text x="430" y="283" class="a" text-anchor="middle">5 V · 1 Vrms · ≤100 Ω</text>
+
+<path class="w" d="M520 246H590" marker-end="url(#a)"/>
+<path class="w" d="M520 272H590" marker-end="url(#a)"/>
+<text x="620" y="250" class="s">3.5 mm line-out</text>
+<text x="620" y="276" class="s">SCART audio pins</text>
+
+<text x="30" y="330" class="lbl">Channel status declares 48 kHz with variable accuracy — S/PDIF has no code for 47,940 Hz; receivers recover the true clock from the biphase stream.</text>
+<text x="30" y="348" class="lbl">The I²S pins are physically unconnected to the CH7035B: the digital video link is strict DVI-D and carries no audio.</text>
+<text x="30" y="366" class="lbl">Output is muted until the supervisor releases reset and the APU is enabled, and re-mutes on brownout.</text>
+</svg>

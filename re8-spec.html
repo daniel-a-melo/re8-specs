@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>re8 — technical specification</title>
+<meta name="description" content="re8 — a boutique 2D console built from factory-fresh parts. One custom chip drives 2 background planes, 128 sprites, a 16-voice APU, a hardware text layer and a hardware mouse cursor. Keyboard and mouse supported.">
+<link rel="canonical" href="https://re8.dev/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://re8.dev/">
+<meta property="og:site_name" content="re8">
+<meta property="og:title" content="re8 — a modern 8-bit console">
+<meta property="og:description" content="A ground-up 2D console: one custom chip, 16-voice audio, hardware text and mouse layers, keyboard and mouse support, and a modern prog8 SDK.">
+<meta property="og:image" content="https://re8.dev/social-preview.png">
+<meta property="og:image:secure_url" content="https://re8.dev/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The re8 console with a cartridge inserted">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="re8 — a modern 2D console">
+<meta name="twitter:description" content="One custom chip. 16-voice audio, hardware text and cursor layers, keyboard and mouse support, modern SDK.">
+<meta name="twitter:image" content="https://re8.dev/social-preview.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* re8 brand palette */
+    --deep:#0a4f47;
+    --base:#0e7a6c;
+    --bright:#2fbfa9;
+    --light:#8fe3d6;
+    --mist:#e6f5f2;
+    --white:#ffffff;
+    /* derived surfaces */
+    --bg:#f7fbfa;
+    --card:#ffffff;
+    --ink:#1c2b28;
+    --ink-soft:#48605b;
+    --ink-faint:#7e948f;
+    --line:#d9e8e4;
+    --line-dark:#0a4f47;
+    --code-bg:#1d2229;
+    --code-text:#d5dbe3;
+    --radius:14px;
+    --maxw:1140px;
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --head:'Space Grotesk', sans-serif;
+    --body:'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--body); line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--base);}
+  ::selection{background:rgba(47,191,169,0.25);}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,251,250,0.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:12px 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--head); font-weight:700; font-size:19px; white-space:nowrap; color:var(--ink);}
+  .brand svg{width:26px; height:26px; border-radius:7px; flex-shrink:0;}
+  nav.links{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;}
+  nav.links::-webkit-scrollbar{display:none;}
+  nav.links a{
+    color:var(--ink-soft); text-decoration:none; font-size:12.5px; font-weight:500;
+    padding:8px 12px; border-radius:8px; white-space:nowrap; transition:.15s;
+    font-family:var(--mono);
+  }
+  nav.links a:hover{color:var(--deep); background:var(--mist);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:72px 0 0;}
+  .stamp{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em; color:var(--deep);
+    border:1.5px solid var(--base); padding:6px 14px; border-radius:6px;
+    margin-bottom:28px; text-transform:uppercase; background:var(--mist);
+  }
+  h1.title{
+    font-family:var(--head); font-weight:700;
+    font-size:clamp(2.6rem, 6.4vw, 4.6rem);
+    line-height:1.02; margin:0 0 20px; letter-spacing:-0.025em; color:var(--ink);
+  }
+  h1.title em{font-style:normal; color:var(--base);}
+  .subtitle{font-size:clamp(1.02rem,2.2vw,1.22rem); color:var(--ink-soft); max-width:700px; margin:0 0 34px;}
+  .subtitle strong{color:var(--ink); font-weight:600;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:0; margin:0 0 48px; border:1px solid var(--line-dark); border-radius:12px; overflow:hidden; background:var(--card);}
+  .stat-cell{flex:1; min-width:110px; padding:14px 10px; text-align:center; border-right:1px solid var(--line);}
+  .stat-cell:last-child{border-right:none;}
+  .stat-cell b{display:block; font-family:var(--mono); font-size:1.15rem; color:var(--deep); font-weight:700;}
+  .stat-cell span{font-size:0.7rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.06em; font-family:var(--mono);}
+
+  /* ---------- FIGURES ---------- */
+  .figure{border:1px solid var(--line-dark); border-radius:var(--radius); overflow:hidden; background:var(--card);}
+  .figure img{display:block; width:100%; height:auto;}
+  .figure .cap{
+    display:flex; justify-content:space-between; gap:12px; align-items:center;
+    padding:10px 16px; border-top:1px solid var(--line);
+    font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+    color:var(--ink-soft); text-transform:uppercase; background:var(--card);
+  }
+  .figure .cap .fig-no{color:var(--base); font-weight:700;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:72px 0;}
+  section.alt{background:var(--mist);}
+  .sec-head{display:flex; align-items:baseline; gap:18px; margin-bottom:14px;}
+  .sec-no{font-family:var(--mono); font-weight:700; font-size:0.95rem; color:var(--base); border-bottom:3px solid var(--bright); padding-bottom:4px; flex-shrink:0;}
+  h2.h-title{font-family:var(--head); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.35rem); margin:0; letter-spacing:-0.015em; color:var(--ink);}
+  .lede{color:var(--ink-soft); font-size:1.04rem; max-width:1060px; text-wrap:pretty; margin:0 0 40px;}
+  .lede strong, .lede b{color:var(--ink);}
+
+  /* ---------- CARDS ---------- */
+  .grid{display:grid; gap:16px;}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr);} .grid-3{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:620px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; transition:.15s border-color;}
+  .card:hover{border-color:var(--bright);}
+  .card h3{font-family:var(--head); font-size:1.02rem; margin:0 0 8px; color:var(--ink); font-weight:600;}
+  .card h3 .tick{color:var(--bright); margin-right:6px;}
+  .card p{color:var(--ink-soft); font-size:0.92rem; margin:0;}
+  .card p strong{color:var(--ink);}
+  .card .num{font-family:var(--mono); font-size:1.9rem; font-weight:700; color:var(--base); display:block; margin-bottom:4px; line-height:1;}
+  .card .unit{font-size:0.9rem; color:var(--ink-faint); font-weight:500;}
+  .card code{font-family:var(--mono); font-size:0.85em; color:var(--deep); background:var(--mist); padding:1px 5px; border-radius:4px;}
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{overflow-x:auto; border:1px solid var(--line-dark); border-radius:var(--radius); background:var(--card);}
+  table{width:100%; border-collapse:collapse; font-size:0.88rem; min-width:480px;}
+  thead th{text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:0.07em; text-transform:uppercase; color:var(--mist); background:var(--deep); padding:11px 16px; font-weight:500;}
+  tbody td{padding:11px 16px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td.mono, td code{font-family:var(--mono); font-size:0.82rem; color:var(--base);}
+  tbody td.strong{color:var(--ink); font-weight:600;}
+  tbody tr:hover td{background:rgba(47,191,169,0.05);}
+
+  /* ---------- GLANCE ---------- */
+  .glance-panel{background:var(--card); border:1px solid var(--line-dark); border-radius:var(--radius); padding:6px 32px;}
+  .glance-row{display:grid; grid-template-columns:210px 1fr; gap:36px; align-items:start; padding:30px 0; border-top:1px solid var(--line);}
+  .glance-row:first-child{border-top:none;}
+  .glance-head{display:flex; align-items:center; gap:10px;}
+  .glance-head .no{font-family:var(--mono); font-size:0.8rem; color:var(--bright); font-weight:700;}
+  .glance-head h3{font-family:var(--head); font-size:1.1rem; font-weight:600; color:var(--ink); margin:0;}
+  .feature-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .feature-list li{display:block; position:relative; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); padding:11px 13px 11px 32px; background:var(--bg); border:1px solid var(--line); border-radius:10px;}
+  .feature-list li::before{content:"▸"; color:var(--base); font-weight:700; position:absolute; left:14px; top:10px;}
+  .feature-list li b{color:var(--ink); font-weight:600;}
+  .feature-list li.span-2{grid-column:1 / -1;}
+  .feature-list.single{grid-template-columns:1fr;}
+  @media(max-width:760px){
+    .glance-panel{padding:4px 20px;}
+    .glance-row{grid-template-columns:1fr; gap:12px; padding:22px 0;}
+    .feature-list{grid-template-columns:1fr;}
+  }
+
+  /* ---------- OITO PANEL ---------- */
+  .asic-hero{
+    border-radius:var(--radius); overflow:hidden; border:1px solid var(--line-dark);
+    background:linear-gradient(135deg, var(--deep), #06332e 70%);
+    color:#eafaf6; padding:38px; margin-bottom:32px;
+  }
+  .asic-hero .kicker{color:var(--light);}
+  .asic-hero h3{font-family:var(--head); font-size:1.45rem; margin:0 0 10px; color:#fff;}
+  .asic-hero p{color:#b9ded6; max-width:none; text-wrap:pretty; margin:0;}
+  .asic-hero p strong{color:#fff;}
+  .badge-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
+  .badge{font-family:var(--mono); font-size:11.5px; padding:5px 10px; border-radius:5px; background:rgba(143,227,214,0.12); border:1px solid rgba(143,227,214,0.4); color:var(--light);}
+  .kicker{font-family:var(--mono); font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--base); margin-bottom:10px; font-weight:700;}
+
+  .prod-step{display:grid; grid-template-columns:44px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line);}
+  .prod-step:first-of-type{border-top:none;}
+  .prod-step .n{font-family:var(--mono); font-weight:700; color:#fff; background:var(--base); width:34px;height:34px;border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:14px;}
+  .prod-step h4{margin:0 0 4px; font-size:0.97rem; color:var(--ink); font-weight:600; font-family:var(--head);}
+  .prod-step p{margin:0; color:var(--ink-soft); font-size:0.9rem;}
+  .prod-step p strong{color:var(--ink);}
+  .cost-strip{display:flex; gap:14px; flex-wrap:wrap; margin-top:26px; padding-top:22px; border-top:2px solid var(--line-dark);}
+  .cost-item{flex:1; min-width:150px;}
+  .cost-item .v{font-family:var(--mono); font-size:1.45rem; font-weight:700; color:var(--deep);}
+  .cost-item .l{font-size:0.78rem; color:var(--ink-faint); margin-top:2px;}
+
+  /* ---------- CODE ---------- */
+  .code-block{background:var(--code-bg); border-radius:12px; overflow:hidden; margin:18px 0; border:1px solid var(--deep);}
+  .code-head{display:flex; align-items:center; justify-content:space-between; padding:9px 16px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.08);}
+  .code-head .fname{font-family:var(--mono); font-size:12px; color:#8a94a0;}
+  .code-dots{display:flex; gap:6px;}
+  .code-dots span{width:9px;height:9px;border-radius:50%; background:#3a414b;}
+  .code-block pre{margin:0; padding:18px 20px; overflow-x:auto; font-family:var(--mono); font-size:12.8px; line-height:1.65; color:var(--code-text);}
+  .tok-c{color:#66707c; font-style:italic;}
+  .tok-s{color:#a8d8a1;}
+  .tok-n{color:#f0b45c;}
+  .tok-k{color:#f27a9d; font-weight:600;}
+  .tok-t{color:#2fbfa9;}
+  .tok-r{color:#b49aff;}
+  .tok-f{color:#7fc4ff;}
+  .tok-d{color:#ff9d5c;}
+
+  .split{display:grid; grid-template-columns:1.1fr 0.9fr; gap:36px; align-items:start;}
+  @media(max-width:900px){.split{grid-template-columns:1fr;}}
+  .two-col-text{display:grid; grid-template-columns:1fr; gap:0;}
+  .two-col-text h3{font-family:var(--head); color:var(--ink); font-size:1.05rem;}
+  .two-col-text p{color:var(--ink-soft); font-size:0.93rem;}
+  .two-col-text p strong{color:var(--ink);}
+  h3.sub{font-family:var(--head); color:var(--ink); font-size:1.1rem; margin:40px 0 14px;}
+
+  /* ---------- CTA ---------- */
+  .cta{border-radius:18px; overflow:hidden; border:1px solid var(--line-dark); background:var(--deep); color:#fff;}
+  .cta-inner{padding:52px 40px; text-align:center;}
+  .cta h2{font-family:var(--head); font-size:clamp(1.5rem,3.4vw,2.2rem); margin:0 0 12px;}
+  .cta p{color:#b9ded6; max-width:560px; margin:0 auto 26px;}
+  .btn-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{font-weight:600; font-size:0.92rem; padding:13px 24px; border-radius:10px; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:.15s;}
+  .btn.primary{background:var(--bright); color:#04231f;}
+  .btn.primary:hover{transform:translateY(-1px);}
+  .btn.ghost{border:1px solid rgba(143,227,214,0.5); color:var(--light);}
+  .btn.outline{border:1.5px solid var(--base); color:var(--base); background:transparent;}
+  .btn.outline:hover{background:var(--mist); border-color:var(--deep); color:var(--deep);}
+  .btn.ghost:hover{border-color:var(--light);}
+  .cta .figure{border:none; border-radius:0;}
+  .cta .figure .cap{display:none;}
+
+  footer{padding:38px 0 56px; color:var(--ink-faint); font-size:0.8rem; text-align:center; font-family:var(--mono); letter-spacing:0.04em;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg viewBox="0 0 72 72"><rect width="72" height="72" rx="18" fill="#0e7a6c"/><g fill="#ffffff"><rect x="20" y="12" width="10" height="10" rx="2.5"/><rect x="31" y="12" width="10" height="10" rx="2.5"/><rect x="42" y="12" width="10" height="10" rx="2.5"/><rect x="14" y="23" width="10" height="10" rx="2.5"/><rect x="48" y="23" width="10" height="10" rx="2.5"/><rect x="20" y="31" width="10" height="10" rx="2.5" fill="#8fe3d6"/><rect x="31" y="31" width="10" height="10" rx="2.5" fill="#8fe3d6"/><rect x="42" y="31" width="10" height="10" rx="2.5" fill="#8fe3d6"/><rect x="14" y="39" width="10" height="10" rx="2.5"/><rect x="48" y="39" width="10" height="10" rx="2.5"/><rect x="20" y="50" width="10" height="10" rx="2.5"/><rect x="31" y="50" width="10" height="10" rx="2.5"/><rect x="42" y="50" width="10" height="10" rx="2.5"/></g></svg>
+      re8
+    </div>
+    <nav class="links">
+      <a href="#overview">01 philosophy</a>
+      <a href="#glance">02 glance</a>
+      <a href="#architecture">03 system</a>
+      <a href="#oito">04 oito</a>
+      <a href="#video-output">05 a/v</a>
+      <a href="#controllers">06 input</a>
+      <a href="#dev">08 sdk</a>
+      <a href="re8-console-spec.html">spec ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:20px;">
+      <div class="stamp">the machine · rev 2026</div>
+      <img src="brand/re8-mark.svg" alt="re8 logo" style="width:76px; height:76px; flex-shrink:0;">
+    </div>
+    <h1 class="title">the <em>re8</em> console</h1>
+    <p class="subtitle">A boutique, ground-up 2D console that marries the <strong>zero-emulation, deterministic architecture of the 8-bit era</strong> with the <strong>pixel-pushing muscle of early-90s arcade silicon</strong> — built entirely from factory-fresh components and one custom chip. Now with a hardware text layer, a hardware mouse cursor, and full <strong>keyboard and mouse support</strong>.</p>
+
+    <div class="stat-row">
+      <div class="stat-cell"><b>7.16 MHz</b><span>w65c02s</span></div>
+      <div class="stat-cell"><b>320×224</b><span>hi-res mode</span></div>
+      <div class="stat-cell"><b>128</b><span>sprites</span></div>
+      <div class="stat-cell"><b>64</b><span>colors</span></div>
+      <div class="stat-cell"><b>16</b><span>audio voices</span></div>
+      <div class="stat-cell"><b>130 nm</b><span>custom silicon</span></div>
+      <div class="stat-cell"><b>prog8</b><span>native sdk</span></div>
+    </div>
+
+    <div class="figure">
+      <img src="renders/re8-hero.png" alt="re8 console, three-quarter view with cartridge inserted">
+      <div class="cap"><span><span class="fig-no">fig. 01</span> — re8 console with neon drift cartridge seated</span><span>3/4 view</span></div>
+    </div>
+  </section>
+
+  <!-- 01 PHILOSOPHY -->
+  <section id="overview">
+    <div class="sec-head"><span class="sec-no">01</span><h2 class="h-title">Built like an 8-bit machine. Pushes like an arcade board.</h2></div>
+    <p class="lede">re8 sits deliberately between two eras: the lean, fully-understood bus architecture of the NES and PC&nbsp;Engine, and the raw pixel-pushing muscle of a 1990s arcade PCB. Every chip on the board is in active production today — nothing is sourced from dwindling New&nbsp;Old&nbsp;Stock — so the platform you build for is the platform that ships, for as long as the fab lines run.</p>
+    <div class="grid grid-4">
+      <div class="card"><h3><span class="tick">◆</span>Zero-emulation</h3><p>A bare-metal 6502-family core and discrete custom silicon — no soft-cores, no interpretation layer between your code and the hardware.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Factory-fresh BOM</h3><p>Every part, from the CPU to the SRAM, is a currently-manufactured component you can order today — not a finite stash of vintage stock.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Do it in hardware</h3><p>Text, the mouse pointer, hit-testing, controller protocols, keyboard decoding — all handled by the chip, so the CPU stays free for your game.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Modern SDK</h3><p>A structured language (prog8), an event-driven library, a hardware debug probe and a WASM emulator bring 2020s ergonomics to an 8-bit bus.</p></div>
+    </div>
+  </section>
+
+  <!-- 02 AT A GLANCE -->
+  <section id="glance" class="alt">
+    <div class="sec-head"><span class="sec-no">02</span><h2 class="h-title">What's in the box</h2></div>
+    <p class="lede">A quick look at what re8 puts on your screen, through your speakers, and in your hands — no engineering degree required.</p>
+
+    <div class="glance-panel" style="margin-bottom:22px;">
+      <div class="glance-row">
+        <div class="glance-head"><span class="no">a</span><h3>Graphics</h3></div>
+        <ul class="feature-list">
+          <li>Two native resolutions — <b>256×224</b> and <b>320×224</b> — both progressive <b>240p at 60Hz</b>.</li>
+          <li><b>64 on-screen colors</b> at once, chosen from a 4,096-color master palette.</li>
+          <li><b>Two independent scrolling backgrounds</b> plus <b>128 sprites</b> (32 per scanline), with hardware collision detection built into the chip.</li>
+          <li>A <b>mini-blitter</b> for full-screen effects, destructible terrain and procedural graphics.</li>
+          <li>A dedicated <b>text layer</b> floats above the game — crisp menus, dialogue and HUDs that cost you no sprites at all.</li>
+        </ul>
+      </div>
+      <div class="glance-row">
+        <div class="glance-head"><span class="no">b</span><h3>Sound</h3></div>
+        <ul class="feature-list">
+          <li><b>16 voices</b>, all playing at once — far beyond a classic chiptune console.</li>
+          <li><b>4 enhanced PSG</b> channels (3 pulse + noise) with envelopes and sweep for classic bite.</li>
+          <li><b>8 wavetable</b> voices for rich, evolving instruments you design yourself.</li>
+          <li><b>4 sample channels</b> — real drums, speech and stingers streamed straight from the cartridge.</li>
+          <li>Out via <b>optical S/PDIF</b> for pristine digital audio, or the analog line-out and SCART.</li>
+        </ul>
+      </div>
+      <div class="glance-row">
+        <div class="glance-head"><span class="no">c</span><h3>Play it your way</h3></div>
+        <ul class="feature-list">
+          <li><b>Two front DB9 ports</b> for two-player action, compatible with <b>Sega Genesis / Mega Drive</b> pads — 3-button and 6-button, vintage or modern clones.</li>
+          <li><b>Plug in a PS/2 keyboard</b> through a simple passive adaptor. Every existing joystick game becomes keyboard-playable automatically — the console maps the keys for you.</li>
+          <li><b>Plug in a PS/2 mouse</b> and the console draws and moves the pointer itself, in hardware. Strategy, simulation and point-and-click games finally have a home on a machine like this.</li>
+          <li>Sub-frame input response on every device.</li>
+        </ul>
+      </div>
+      <div class="glance-row">
+        <div class="glance-head"><span class="no">d</span><h3>Cartridges &amp; saves</h3></div>
+        <ul class="feature-list">
+          <li>Real <b>parallel flash cartridges</b> up to <b>1&nbsp;MB</b> — code runs straight from the cart with no loading screens.</li>
+          <li><b>Battery-free saves.</b> Saving carts use FRAM, so your progress doesn't die with a coin cell in fifteen years.</li>
+          <li>An optional <b>SD cartridge</b> plays digitally-distributed games and carries firmware updates.</li>
+          <li>Boots in a moment to a real firmware — logo, self-test, and a friendly screen if a cart is missing or damaged.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figure">
+      <img src="renders/re8-family.png" alt="re8 console, cartridge and debug probe together">
+      <div class="cap"><span><span class="fig-no">fig. 02</span> — the complete system: console, game cartridge, developer debug probe</span><span>family</span></div>
+    </div>
+  </section>
+
+  <!-- 03 SYSTEM -->
+  <section id="architecture">
+    <div class="sec-head"><span class="sec-no">03</span><h2 class="h-title">A whole machine you can hold in your head</h2></div>
+    <p class="lede">One CPU, one custom chip, and memory you can count on your fingers. The point of re8 isn't scale — it's that a single developer can understand every cycle, every byte and every wire, and still ship something that looks and sounds like an arcade board.</p>
+
+    <div class="grid grid-3" style="margin-bottom:18px;">
+      <div class="card"><span class="num">7.16<span class="unit"> MHz</span></span><h3>W65C02S, running flat out</h3><p>A fully-static, in-production CMOS 6502 clocked at exactly one third of the master clock, so every scanline is an exact <b>455 CPU cycles</b>. Deterministic timing you can actually plan against.</p></div>
+      <div class="card"><span class="num">16<span class="unit"> KB</span></span><h3>System RAM</h3><p>Fast asynchronous SRAM on the CPU bus. Small on purpose: the SDK enforces the budget at compile time, so you find out at build, not at 3am.</p></div>
+      <div class="card"><span class="num">128<span class="unit"> KB</span></span><h3>Video RAM</h3><p>On a private bus straight into oito, so graphics fetches never fight the CPU for the main bus.</p></div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Cartridges that behave like memory</h3>
+        <p>Games live on parallel NOR flash and execute <b>in place</b> — there's no load step, no decompression stage, no streaming budget. A console-side mapper gives you a fixed 16&nbsp;KB window for your engine and a switchable window for everything else, up to <b>1&nbsp;MB</b> per cartridge.</p>
+        <p>Because the mapper lives in the console rather than the cartridge, a game cart is a single chip on a two-layer board — which is what keeps small print runs viable.</p>
+      </div>
+      <div>
+        <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Saves that outlive the hardware</h3>
+        <p>Saving cartridges carry <b>FRAM</b> — nonvolatile, effectively unlimited write cycles, and <b>no battery</b>. The classic retro failure, where a dead coin cell takes a childhood save file with it, simply cannot happen here.</p>
+        <p>Digital titles on the SD cartridge write their saves to the card instead, so both distribution routes behave the same way to the player.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 OITO -->
+  <section id="oito" class="alt">
+    <div class="sec-head"><span class="sec-no">04</span><h2 class="h-title">Meet oito — the chip that does the work</h2></div>
+    <p class="lede">Every distinctive thing about re8 lives in one custom ASIC, fabricated on an open 130&nbsp;nm process. oito is the graphics processor, the sound chip, the cartridge mapper, the input controller and the system glue — and it deliberately takes on jobs that other machines leave to the CPU.</p>
+
+    <div class="figure" style="margin-bottom:22px;">
+      <img src="renders/re8-asic.png" alt="the oito custom ASIC">
+      <div class="cap"><span><span class="fig-no">fig. 03</span> — oito: one chip for graphics, sound, mapping and input</span><span>custom silicon</span></div>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:16px;">
+      <div class="card"><h3><span class="tick">◆</span>Two background planes + 128 sprites</h3><p>Two independently scrolling 512×256 playfields with per-tile priority and flipping, plus 128 hardware sprites (32 per scanline) in sizes from 8×8 to 32×32. Sprites carry their own priority, so foreground detail can pass in front of one plane and behind another.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Hardware collision</h3><p>oito compares opaque sprite pixels as it draws the line and reports the exact pair that touched — no bounding boxes, no per-frame CPU sweeps, no false positives on transparent pixels.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>A text layer, free of charge</h3><p>A dedicated character layer composites above everything else, with its own font in the chip. Menus, dialogue boxes, subtitles and debug overlays cost <b>zero sprites</b> and zero tile budget — and a game can load its own typeface. 40 columns, or 80 in condensed mode.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>A mouse pointer drawn in silicon</h3><p>Give oito a cursor graphic once and it owns the rest: reading the mouse, moving the pointer, clamping it to the screen and compositing it above every layer. Your game just receives move and click events.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Ask what's under the pointer</h3><p>Hardware hit-testing reports which sprite and which background tile sit beneath the cursor. What would be a per-click search loop on other machines is a register read here — the difference between a sluggish strategy game and a responsive one.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>16-voice audio unit</h3><p>PSG, wavetable and sampled voices on one die, mixed internally at ~48&nbsp;kHz and delivered as clean digital audio. Samples stream directly from the cartridge, so speech and real drums don't eat your RAM.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Mini-blitter</h3><p>A VRAM-to-VRAM engine for copies, fills and masked draws that runs alongside the display, enabling destructible terrain and procedural graphics without hand-rolled CPU loops.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Input, protocols included</h3><p>The Sega 6-button handshake and the PS/2 keyboard and mouse protocols are all implemented in hardware. Game code reads buttons, characters and pointer coordinates — never wire protocols.</p></div>
+    </div>
+
+    <p style="color:var(--ink-soft); font-size:0.94rem;">oito is synthesised with an open-source flow against the SkyWater 130&nbsp;nm PDK and packaged as an LQFP-144. <a href="re8-console-spec.html#6-oito-custom-asic">Full register map, data formats and timing →</a></p>
+  </section>
+
+  <!-- 05 A/V OUT -->
+  <section id="video-output">
+    <div class="sec-head"><span class="sec-no">05</span><h2 class="h-title">Every screen, every era — at the same time</h2></div>
+    <p class="lede">One digital pipeline inside oito feeds every output simultaneously. No switches, no menus, no re-plugging: connect a 1970s portable and a 2026 OLED at once and both show a picture.</p>
+
+    <div class="table-wrap" style="margin-bottom:18px;">
+      <table>
+        <thead><tr><th>Output</th><th>Connector</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td class="strong">Digital video</td><td class="mono">HDMI-type</td><td>Any modern TV or monitor — a fixed, standard <b>1080p60</b> picture, integer-scaled so pixels stay square and sharp.</td></tr>
+          <tr><td class="strong">RGB SCART</td><td class="mono">Euro-SCART</td><td>European CRTs, PVMs and premium upscalers — the enthusiast's choice.</td></tr>
+          <tr><td class="strong">Analog RGBHV</td><td class="mono">DE-15</td><td>15&nbsp;kHz-capable monitors and upscalers such as the OSSC or RetroTINK. <em>Not</em> standard VGA timing.</td></tr>
+          <tr><td class="strong">S-Video</td><td class="mono">4-pin mini-DIN</td><td>A noticeably sharper picture on any classic set that supports it.</td></tr>
+          <tr><td class="strong">Composite</td><td class="mono">RCA</td><td>Plugs into essentially any television ever made.</td></tr>
+          <tr><td class="strong">Digital audio</td><td class="mono">TOSLINK</td><td>Optical S/PDIF into a soundbar or AV receiver, plus analog line-out and SCART audio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card"><h3><span class="tick">◆</span>60Hz everywhere</h3><p>re8 runs at 60Hz worldwide. There is no PAL slowdown, no region-locked timing, and no 50Hz version of a game that plays 17% slower than the developer intended.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Pixel-art-first scaling</h3><p>The digital output uses nearest-neighbour, integer scaling only. No blurring, no interpolation, no smearing of the art you drew pixel by pixel.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>240p, properly</h3><p>Progressive 240p — never interlaced — so scrolling stays rock-solid on a CRT and clean through a modern upscaler.</p></div>
+    </div>
+  </section>
+
+  <!-- 06 INPUT -->
+  <section id="controllers" class="alt">
+    <div class="sec-head"><span class="sec-no">06</span><h2 class="h-title">Pads, keyboards and mice — all on two ports</h2></div>
+    <p class="lede">re8 takes ordinary Sega Genesis controllers, and the same two ports accept a <strong>PS/2 keyboard or mouse</strong> through a passive adaptor — no powered dongle, no USB stack, no firmware to flash. It's what turns a console into a machine that can also run strategy games, simulations and text adventures.</p>
+
+    <div class="grid grid-3" style="margin-bottom:18px;">
+      <div class="card"><h3><span class="tick">◆</span>Genesis pads, both kinds</h3><p>3-button and 6-button pads, vintage or modern reproductions. The console performs the full 6-button handshake itself and tells the game which pad it found.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Keyboard, and every game supports it</h3><p>The console maps arrow keys and letters onto the joypad registers <b>below the game</b> — so titles written years earlier become keyboard-playable with no patch and no cooperation from the developer.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Mouse, drawn by the console</h3><p>The pointer is composited by oito above every layer. Games get coordinates and clicks; nobody spends sprites or CPU time drawing a cursor.</p></div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Why this matters</h3>
+        <p>Genres that never fitted an 8-bit console — 4X and grand strategy, city and colony builders, point-and-click adventures, tycoon and management games, even a BASIC-style prompt — need a pointer and a text field far more than they need sprites.</p>
+        <p>re8 provides both in hardware, so those games are natural to write rather than heroic.</p>
+      </div>
+      <div>
+        <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Honest limits</h3>
+        <p>There are two ports, so a keyboard or mouse occupies one of them: joystick + keyboard, joystick + mouse, or keyboard + mouse — not all three at once.</p>
+        <p>Devices are <b>PS/2</b>, not USB. The adaptor is passive wiring, and a port is set to keyboard or mouse mode from the console's own settings screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 DEV HARDWARE -->
+  <section id="expansion">
+    <div class="sec-head"><span class="sec-no">07</span><h2 class="h-title">A window into the running machine</h2></div>
+    <p class="lede">An unpopulated 40-pin header on the board exposes the entire CPU bus and the chip's JTAG interface. Fit the connector and the re8 debug probe turns a console with no operating system into something you can single-step.</p>
+
+    <div class="figure" style="margin-bottom:20px;">
+      <img src="renders/re8-probe.png" alt="the re8 debug probe">
+      <div class="cap"><span><span class="fig-no">fig. 04</span> — the re8 debug probe: USB-C to the host, ribbon cable to the expansion header</span><span>debug probe</span></div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card"><h3><span class="tick">◆</span>Hardware breakpoints</h3><p>The probe watches the address bus and halts the CPU on the instruction you named — no debug code in your ROM, no performance cost, and the game runs at full speed right up to the moment it stops.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Single-step a static CPU</h3><p>Because the 65C02 is fully static, the clock can be stopped entirely and advanced one cycle at a time with the machine's state perfectly preserved.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Develop without a cartridge</h3><p>A writable dev cartridge is filled directly by the probe over the header, so the edit-build-run loop never involves burning a chip.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 SDK -->
+  <section id="dev" class="alt">
+    <div class="sec-head"><span class="sec-no">08</span><h2 class="h-title">Write structured code. Ship native 6502.</h2></div>
+    <p class="lede">re8's SDK language is <strong>prog8</strong> — a structured, Python-flavoured language purpose-built for the 6502 family, compiling straight to tight assembly with no runtime and no garbage collector. The library above it is event-driven, and the hardware underneath it removes most of the work that makes 8-bit development tedious.</p>
+
+    <div class="grid grid-3" style="margin-bottom:8px;">
+      <div class="card"><h3><span class="tick">◆</span>Static by design</h3><p>No heap, no dynamic arrays, no garbage collector. Every variable has a fixed address at compile time, and the build fails if you exceed the RAM budget — you learn at build time, not at 3am.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Zero-overhead calls</h3><p>Arguments live in static cells rather than on a stack, so a call often compiles to a single <code>STA</code>. Ordinary subroutines are non-reentrant as a result — an honest reflection of what the silicon does.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Dead-code elimination</h3><p>Unused library routines never reach the ROM. Link only the input handlers and you pay only for the input handlers.</p></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head"><span class="fname">main.prg</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><code id="code-1"></code></pre>
+    </div>
+
+    <h3 style="font-family:var(--head); font-size:1.15rem; margin:34px 0 12px;">The hardware does the boring parts</h3>
+    <p class="lede" style="margin-bottom:18px;">Three things that normally consume weeks of an 8-bit project are handled by oito, and reach your code as ordinary events.</p>
+
+    <div class="grid grid-3" style="margin-bottom:20px;">
+      <div class="card"><h3><span class="tick">◆</span>Text without a tile engine</h3><p>Print to a character layer that floats above the game. No font blitting, no tile allocation, no sprite budget — and dialogue boxes are a rectangle of opaque cells, drawn by the chip.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>A cursor you never draw</h3><p>Set the pointer graphic once. oito reads the mouse, moves the pointer, clamps it and composites it. You handle <code>on_move</code> and <code>on_button</code> — nothing else.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Click-to-object, for free</h3><p>Hardware hit-testing tells you which sprite and which map tile are under the pointer. No coordinate maths, no scroll compensation, no per-object loop.</p></div>
+    </div>
+
+    <div class="code-block" style="margin-bottom:22px;">
+      <div class="code-head"><span class="fname">strategy.prg</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><code id="code-2"></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head"><span class="fname">events.prg</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><code id="code-3"></code></pre>
+    </div>
+
+    <h3 style="font-family:var(--head); font-size:1.15rem; margin:34px 0 12px;">A real debugger, on a machine with no OS</h3>
+
+    <div class="figure" style="margin-bottom:18px;">
+      <img src="renders/re8-vscode-sdk.png" alt="the re8 VS Code extension debugging a running game">
+      <div class="cap"><span><span class="fig-no">fig. 05</span> — paused at a collision breakpoint: code, variables, VRAM inspector and emulator in one view</span><span>vs code</span></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card"><h3><span class="tick">◆</span>console.log(), for real hardware</h3><p>Address <code>$4FFF</code> is a write-only "ghost port" with no backing memory. Writing to it costs 4 cycles and does nothing unless a probe or the emulator is listening — so debug logging can ship in production builds while streaming live text to your editor during development.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Source-level debugging</h3><p>The toolchain produces a flat binary with no debug format of its own, so the SDK synthesises the symbol information VS Code needs — giving you breakpoints and stepping against your original prog8 source lines.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Live VRAM inspector</h3><p>A scrollable grid of every loaded tile with palette overlay, hover-to-inspect addresses, the sprite list, and active-scanline highlighting showing what oito is scanning out right now.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Emulator in the editor</h3><p>A hot-reloading WASM emulator runs inside a VS Code panel for instant iteration, sharing the same debug hooks as the physical probe — and an immediate console lets you poke memory or call game functions on the halted machine.</p></div>
+    </div>
+  </section>
+
+  <!-- 09 SPEC -->
+  <section id="spec-link">
+    <div class="sec-head"><span class="sec-no">09</span><h2 class="h-title">The whole machine, written down</h2></div>
+    <p class="lede">Everything on this page is backed by a complete normative specification — the document an implementer would build the hardware or an emulator from. It carries the full register map, data formats, raster and bus timing, the bill of materials with real part numbers, the file and tool ABI, and the conformance contract.</p>
+
+    <div class="grid grid-3" style="margin-bottom:20px;">
+      <div class="card"><h3><span class="tick">◆</span>Register-level detail</h3><p>Every register with its reset value, bit fields, read/write side effects and unmapped behaviour — plus pseudocode for the blitter, the compositor and all sixteen audio voices.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Real parts, real timing</h3><p>Named, orderable components with voltage domains and margins; exact clocks, raster structure and bus arbitration.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Honest about what's unproven</h3><p>The specification lists, by name, everything still to be validated on real silicon before tape-out — rather than quietly implying it's all settled.</p></div>
+    </div>
+
+    <div class="btn-row">
+      <a href="re8-console-spec.html" class="btn primary">read the technical specification →</a>
+      <a href="re8-console-spec.html#16-conformance-validation" class="btn outline">conformance contract →</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta">
+      <div class="figure">
+        <img src="renders/re8-family.png" alt="the re8 system family">
+      </div>
+      <div class="cta-inner">
+        <h2>Build for hardware that respects the constraint.</h2>
+        <p>re8 is a real, manufacturable platform — not a spec-sheet thought experiment. Factory-fresh parts, an open-process custom chip, and a toolchain built specifically so an 8-bit machine doesn't have to feel like 1985 to develop for.</p>
+        <div class="btn-row">
+          <a href="#dev" class="btn primary">explore the sdk ↑</a>
+          <a href="re8-console-spec.html" class="btn ghost">technical specification →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  re8 · july 2026 · <a href="re8-console-spec.html" style="color:inherit;">technical specification</a> · subject to change prior to production
+</footer>
+
+<script>
+(function(){
+  function esc(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  const KEYWORDS = new Set(["sub","main","if","else","while","for","in","to","return","const","struct","module","asm","true","false","import","not"]);
+  const TYPES = new Set(["ubyte","uword","byte","word","bool","string","subref","void"]);
+  const TOKEN_RE = /(\/\/[^\n]*|;[^\n]*|#[^\n]*)|("(?:[^"\\\n]|\\.)*")|(%[a-zA-Z]\w*)|(\$[0-9A-Fa-f]+|%[01]{4,}|\b0x[0-9A-Fa-f]+\b)|\b(\d+)\b|\b([a-zA-Z_]\w*)\b(?=\s*\()|\b([A-Za-z_]\w*)\b/g;
+
+  function highlight(src){
+    let result = "";
+    let last = 0;
+    let m;
+    TOKEN_RE.lastIndex = 0;
+    while ((m = TOKEN_RE.exec(src)) !== null){
+      if (m.index > last) result += esc(src.slice(last, m.index));
+      last = TOKEN_RE.lastIndex;
+      const [full, comment, string, directive, hexnum, decnum, funcname, word] = m;
+      if (comment !== undefined){ result += '<span class="tok-c">' + esc(comment) + '</span>'; }
+      else if (string !== undefined){ result += '<span class="tok-s">' + esc(string) + '</span>'; }
+      else if (directive !== undefined){ result += '<span class="tok-d">' + esc(directive) + '</span>'; }
+      else if (hexnum !== undefined){ result += '<span class="tok-n">' + esc(hexnum) + '</span>'; }
+      else if (decnum !== undefined){ result += '<span class="tok-n">' + esc(decnum) + '</span>'; }
+      else if (funcname !== undefined){ result += '<span class="tok-f">' + esc(funcname) + '</span>'; }
+      else if (word !== undefined){
+        if (KEYWORDS.has(word)) result += '<span class="tok-k">' + esc(word) + '</span>';
+        else if (TYPES.has(word)) result += '<span class="tok-t">' + esc(word) + '</span>';
+        else if (/^[A-Z][A-Z0-9_]{2,}$/.test(word)) result += '<span class="tok-r">' + esc(word) + '</span>';
+        else result += esc(word);
+      } else { result += esc(full); }
+    }
+    if (last < src.length) result += esc(src.slice(last));
+    return result;
+  }
+
+  const samples = {
+    "code-1": `%import re8
+
+main {
+    ubyte score
+    bool  game_paused
+
+    sub start() {
+        re8.video.set_mode(VIDEO_HI_RES)      ; 320x224
+        re8.text.enable()                     ; hardware text layer
+        re8.text.put(12, 2, "NEON DRIFT")
+
+        re8.input.set_handler(BUTTON_A, &fire)
+        re8.collision.set_handler(&on_hit)
+
+        engine.run()                          ; event loop
+    }
+
+    sub fire() {
+        player.fire_missile()
+    }
+
+    sub on_hit(ubyte a, ubyte b) {
+        if re8.sprites.kind(b) == KIND_ENEMY {
+            score += 100
+            re8.audio.play(SFX_EXPLOSION)
+            re8.sprites.destroy(b)
+        }
+    }
+}`,
+    "code-2": `; a strategy game: the console draws the pointer,
+; and tells you what is underneath it.
+
+main {
+    sub start() {
+        re8.mouse.set_cursor(CURSOR_ARROW, 0, 0)   ; hotspot at the tip
+        re8.mouse.set_speed($18)                   ; 1.5x
+        re8.mouse.on_button(&clicked)
+        engine.run()
+    }
+
+    sub clicked(ubyte buttons) {
+        if buttons & MOUSE_LEFT == 0
+            return
+
+        ubyte unit = re8.mouse.hit_sprite()        ; which sprite? no maths
+        if unit != NONE {
+            select_unit(unit)
+            return
+        }
+
+        ubyte col, row = re8.mouse.hit_cell(PLANE_A) ; which map tile?
+        order_move_to(col, row)                      ; scroll already applied
+    }
+}`,
+    "code-3": `; text input, echoed by the hardware text layer
+
+main {
+    str player_name = "        "        ; 8 chars, statically allocated
+
+    sub start() {
+        if not re8.keyboard.present()
+            return
+
+        re8.text.enable()
+        re8.text.put(9, 10, "ENTER NAME:")
+
+        re8.keyboard.field_begin(player_name, 8, 20, 10)
+        re8.keyboard.joypad_passthrough(false)   ; typing must not fire buttons
+
+        repeat {
+            sys.waitvsync()
+            when re8.keyboard.field_poll() {
+                re8.keyboard.DONE   -> break
+                re8.keyboard.CANCEL -> break
+            }
+        }
+        re8.keyboard.field_end()
+    }
+}`
+  };
+
+  Object.keys(samples).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = highlight(samples[id]);
+  });
+})();
+</script>
+
+</body>
+</html>

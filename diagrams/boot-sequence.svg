@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Inter, Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#334"/></marker></defs>
+<style>
+.t{font-size:12.5px;fill:#20262e;font-weight:600}.s{font-size:10.5px;fill:#4d5560}
+.a{font-size:10.5px;fill:#b9770e;font-family:'JetBrains Mono',monospace;font-weight:600}
+.hdr{font-size:11px;fill:#0e7a6c;font-weight:700;letter-spacing:.08em}
+.lbl{font-size:9.5px;fill:#4d5560;font-style:italic}
+.box{fill:#fdfcf9;stroke:#20262e;stroke-width:1.5;rx:8}
+.st{fill:#e3efec;stroke:#0e7a6c;stroke-width:2;rx:8}
+.rec{fill:#fdf3e0;stroke:#b9770e;stroke-width:1.8;rx:8}
+.w{stroke:#334;stroke-width:1.6;fill:none}
+</style>
+<text x="20" y="26" class="hdr">re8 — BOOT SEQUENCE &amp; OVERLAY STATES ($E000–$FFFF)</text>
+
+<rect class="st" x="40" y="52" width="200" height="76"/>
+<text x="140" y="76" class="t" text-anchor="middle">RES̄ asserted</text>
+<text x="140" y="94" class="s" text-anchor="middle">supervisor holds CPU, oito</text>
+<text x="140" y="110" class="s" text-anchor="middle">and CH7035B until rails stable</text>
+<text x="140" y="124" class="a" text-anchor="middle">BOOT_SRC = 0</text>
+
+<path class="w" d="M140 128V162" marker-end="url(#a)"/>
+
+<rect class="st" x="40" y="162" width="200" height="90"/>
+<text x="140" y="184" class="t" text-anchor="middle">Internal stub runs</text>
+<text x="140" y="202" class="s" text-anchor="middle">2 KB mask ROM, mirrored ×4</text>
+<text x="140" y="218" class="s" text-anchor="middle">owns $FFFC/D reset vector</text>
+<text x="140" y="236" class="s" text-anchor="middle">copies loader → system RAM</text>
+<text x="140" y="248" class="lbl" text-anchor="middle">unbrickable — cannot be erased</text>
+
+<path class="w" d="M240 207H300" marker-end="url(#a)"/>
+<text x="270" y="200" class="lbl" text-anchor="middle">jumps to RAM</text>
+
+<rect class="box" x="300" y="162" width="210" height="90"/>
+<text x="405" y="184" class="t" text-anchor="middle">RAM loader validates</text>
+<text x="405" y="204" class="a" text-anchor="middle">BOOT_SRC = 1</text>
+<text x="405" y="222" class="s" text-anchor="middle">walks pages via BOOT_BANK</text>
+<text x="405" y="238" class="s" text-anchor="middle">verifies firmware checksum</text>
+
+<path class="w" d="M405 252V292" marker-end="url(#a)"/>
+<text x="415" y="276" class="s">valid</text>
+<path class="w" d="M510 207H570 Q590 207 590 250" marker-end="url(#a)"/>
+<text x="556" y="200" class="s">blank / corrupt</text>
+
+<rect class="rec" x="500" y="250" width="180" height="86"/>
+<text x="590" y="272" class="t" text-anchor="middle">Recovery</text>
+<text x="590" y="290" class="a" text-anchor="middle">BOOT_SRC = 0</text>
+<text x="590" y="306" class="s" text-anchor="middle">reads image via cart window</text>
+<text x="590" y="322" class="s" text-anchor="middle">reflashes; probe = alt. path</text>
+<path class="w" d="M590 336 Q590 372 500 372 Q430 372 430 300" marker-end="url(#a)"/>
+<text x="520" y="390" class="lbl" text-anchor="middle">retry after reflash</text>
+
+<rect class="box" x="300" y="292" width="210" height="96"/>
+<text x="405" y="314" class="t" text-anchor="middle">Boot firmware</text>
+<text x="405" y="332" class="s" text-anchor="middle">logo + jingle · hardware init</text>
+<text x="405" y="348" class="s" text-anchor="middle">charset → font bank 0 · self-test</text>
+<text x="405" y="364" class="s" text-anchor="middle">header validate → CART_CONFIG_*</text>
+<text x="405" y="380" class="s" text-anchor="middle">CART_LOCK ← $A5</text>
+
+<path class="w" d="M300 340H240 Q210 340 210 300" marker-end="url(#a)"/>
+<rect class="box" x="40" y="292" width="160" height="96"/>
+<text x="120" y="316" class="t" text-anchor="middle">Handoff</text>
+<text x="120" y="334" class="s" text-anchor="middle">copy stub → RAM</text>
+<text x="120" y="352" class="a" text-anchor="middle">BOOT_SRC = 2</text>
+<text x="120" y="368" class="s" text-anchor="middle">one-way until RES̄</text>
+<text x="120" y="382" class="s" text-anchor="middle">JMP ($FFFC)</text>
+
+<path class="w" d="M120 388V420" marker-end="url(#a)"/>
+<rect class="st" x="40" y="420" width="160" height="34"/>
+<text x="120" y="442" class="t" text-anchor="middle">Cartridge runs</text>
+
+<!-- state legend -->
+<rect x="700" y="52" width="160" height="176" fill="#f6f3ec" stroke="#8b929c" stroke-width="1.2" rx="8"/>
+<text x="780" y="74" class="t" text-anchor="middle">BOOT_SRC</text>
+<text x="714" y="98" class="a">0</text><text x="736" y="98" class="s">internal stub</text>
+<text x="736" y="112" class="lbl">mirrored ×4</text>
+<text x="714" y="136" class="a">1</text><text x="736" y="136" class="s">boot-flash page</text>
+<text x="736" y="150" class="lbl">selected by BOOT_BANK</text>
+<text x="714" y="174" class="a">2</text><text x="736" y="174" class="s">overlay off</text>
+<text x="736" y="188" class="lbl">cartridge owns $C000–$FFFF</text>
+<text x="714" y="212" class="lbl">0↔1 free during boot;</text>
+<text x="714" y="224" class="lbl">→2 is one-way.</text>
+
+<text x="700" y="262" class="lbl">Fast-boot emulators may skip to</text>
+<text x="700" y="276" class="lbl">the §11.1.1 handoff-state table,</text>
+<text x="700" y="290" class="lbl">which must be byte-identical to</text>
+<text x="700" y="304" class="lbl">what the canonical image produces.</text>
+</svg>
