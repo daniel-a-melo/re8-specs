@@ -27,8 +27,16 @@ def build_renders():
             subprocess.run(["cwebp", "-quiet", "-q", "82", str(png), "-o", str(webp)], check=True)
             made += 1
         except (FileNotFoundError, subprocess.CalledProcessError):
-            shutil.copy2(png, out / png.name)   # fall back to the PNG
-            log(f"cwebp unavailable — copied {png.name}")
+            try:                                # fallback: Pillow
+                from PIL import Image
+                Image.open(png).save(webp, "WEBP", quality=82, method=6)
+                made += 1
+            except Exception as e:
+                shutil.copy2(png, out / png.name)
+                log(f"webp conversion unavailable ({e}) — copied {png.name}")
+    for stray in out.glob("*.png"):
+        if (out / (stray.stem + ".webp")).exists():
+            stray.unlink()
     log(f"renders: {made} converted, {len(list(out.iterdir()))} present")
 
 # ---------- 2. marketing page ----------

@@ -112,7 +112,7 @@
     padding:10px 16px; border-top:1px solid var(--line);
     font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
     color:var(--ink-soft); text-transform:uppercase; background:var(--card);
-  }
+   flex-wrap:wrap; row-gap:4px;}
   .figure .cap .fig-no{color:var(--base); font-weight:700;}
 
   /* ---------- SECTIONS ---------- */
@@ -235,6 +235,13 @@
   .cta .figure{border:none; border-radius:0;}
   .cta .figure .cap{display:none;}
 
+.disclaimer{background:#fff8e8; border-bottom:1px solid #f0e2c6;}
+  .disclaimer .wrap-d{max-width:var(--maxw); margin:0 auto; padding:11px 24px; display:flex; gap:12px; align-items:baseline;
+    font-size:0.845rem; color:#7a5b16; line-height:1.55;}
+  .disclaimer b{font-family:var(--mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); white-space:nowrap;}
+  .note{background:var(--mist); border:1px solid var(--line); border-left:3px solid var(--base);
+    border-radius:10px; padding:14px 18px; font-size:0.9rem; color:var(--ink-soft); margin:0 0 20px;}
+  .note b{color:var(--deep);}
   footer{padding:38px 0 56px; color:var(--ink-faint); font-size:0.8rem; text-align:center; font-family:var(--mono); letter-spacing:0.04em;}
 </style>
 </head>
@@ -259,6 +266,13 @@
   </div>
 </header>
 
+<div class="disclaimer">
+  <div class="wrap-d">
+    <b>Concept</b>
+    <span><strong>A note on reality:</strong> re8 isn't a real product — not yet, anyway. It's a detailed design exercise, and none of this hardware has been built. The partnership shown here is imagined: the companies named have no knowledge of, or involvement in, this project, and all trademarks remain theirs.</span>
+  </div>
+</div>
+
 <div class="wrap">
 
   <!-- HERO -->
@@ -268,7 +282,7 @@
       <img src="brand/re8-mark.svg" alt="re8 logo" style="width:76px; height:76px; flex-shrink:0;">
     </div>
     <h1 class="title">the <em>re8</em> console</h1>
-    <p class="subtitle">A boutique, ground-up 2D console that marries the <strong>zero-emulation, deterministic architecture of the 8-bit era</strong> with the <strong>pixel-pushing muscle of early-90s arcade silicon</strong> — built entirely from factory-fresh components and one custom chip. Now with a hardware text layer, a hardware mouse cursor, and full <strong>keyboard and mouse support</strong>.</p>
+    <p class="subtitle">A boutique, ground-up 2D console that marries the <strong>zero-emulation, deterministic architecture of the 8-bit era</strong> with the <strong>pixel-pushing muscle of early-90s arcade silicon</strong> — built entirely from factory-fresh components and one custom chip.</p>
 
     <div class="stat-row">
       <div class="stat-cell"><b>7.16 MHz</b><span>w65c02s</span></div>
@@ -418,6 +432,11 @@
       </table>
     </div>
 
+    <div class="figure" style="margin-bottom:18px;">
+      <img src="renders/re8-back.png" alt="re8 rear panel showing all six output connectors">
+      <div class="cap"><span><span class="fig-no">fig. 04</span> — every output on one panel: DVI-D, RGB 15kHz, RGB SCART, S-Video, composite and DC input</span><span>rear panel</span></div>
+    </div>
+
     <div class="grid grid-3">
       <div class="card"><h3><span class="tick">◆</span>60Hz everywhere</h3><p>re8 runs at 60Hz worldwide. There is no PAL slowdown, no region-locked timing, and no 50Hz version of a game that plays 17% slower than the developer intended.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Pixel-art-first scaling</h3><p>The digital output uses nearest-neighbour, integer scaling only. No blurring, no interpolation, no smearing of the art you drew pixel by pixel.</p></div>
@@ -434,6 +453,33 @@
       <div class="card"><h3><span class="tick">◆</span>Genesis pads, both kinds</h3><p>3-button and 6-button pads, vintage or modern reproductions. The console performs the full 6-button handshake itself and tells the game which pad it found.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Keyboard, and every game supports it</h3><p>The console maps arrow keys and letters onto the joypad registers <b>below the game</b> — so titles written years earlier become keyboard-playable with no patch and no cooperation from the developer.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Mouse, drawn by the console</h3><p>The pointer is composited by oito above every layer. Games get coordinates and clicks; nobody spends sprites or CPU time drawing a cursor.</p></div>
+    </div>
+
+
+    <h3 style="font-family:var(--head); font-size:1.15rem; margin:38px 0 10px;">The re8 edition accessories</h3>
+    <p class="lede" style="margin-bottom:14px;">Three peripherals designed with <strong>8BitDo</strong>, finished in the re8 palette. Each ships with a <strong>2.4G wireless receiver shaped as a Genesis-style plug</strong> — it drops into either controller port, and for the keyboard and mouse it speaks the console's native <strong>PS/2 protocol</strong>, so oito handles the device directly in hardware.</p>
+
+    <div class="note"><b>Imagined partnership.</b> 8BitDo has no involvement in this project and has not been approached. These are concept renders, not products.</div>
+
+    <div class="figure" style="margin-bottom:20px;">
+      <img src="renders/re8-gamepad.png" alt="M30 2.4G re8 edition gamepad, front and side views">
+      <div class="cap"><span><span class="fig-no">fig. 05</span> — <b>M30 2.4G re8 edition</b> · six-button Genesis layout, 2.4G wireless, re8 mark above Start</span><span>google gemini · from original product photos</span></div>
+    </div>
+
+    <div class="figure" style="margin-bottom:20px;">
+      <img src="renders/re8-keyboard.png" alt="8BitDo Retro Keyboard re8 edition with its Genesis-plug 2.4G receiver">
+      <div class="cap"><span><span class="fig-no">fig. 06</span> — <b>8BitDo Retro Keyboard re8 edition</b> · mechanical TKL with A/B keys; the 2.4G receiver is a Genesis plug speaking PS/2</span><span>google gemini · from original product photos</span></div>
+    </div>
+
+    <div class="figure" style="margin-bottom:20px;">
+      <img src="renders/re8-mouse.png" alt="8BitDo Retro Mouse re8 edition">
+      <div class="cap"><span><span class="fig-no">fig. 07</span> — <b>8BitDo Retro Mouse re8 edition</b> · scroll wheel and thumb buttons; same Genesis-plug PS/2 receiver</span><span>google gemini · from original product photos</span></div>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom:20px;">
+      <div class="card"><h3><span class="tick">◆</span>One receiver, either port</h3><p>The dongle is a Genesis-shaped plug, so it goes into the same DB9 port a pad would use. No adaptor, no console-side setting beyond choosing the port's mode.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Wireless, but native</h3><p>The receiver presents the keyboard or mouse to the console exactly as a wired PS/2 device would — so oito decodes scancodes and moves the pointer in hardware, with no driver and no CPU cost.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Finished in re8 colours</h3><p>Cream shells with brand-teal accents, matched to the console. The pixel-eight mark sits above Start on the pad, and on the shell of every receiver.</p></div>
     </div>
 
     <div class="split">
@@ -457,7 +503,7 @@
 
     <div class="figure" style="margin-bottom:20px;">
       <img src="renders/re8-probe.png" alt="the re8 debug probe">
-      <div class="cap"><span><span class="fig-no">fig. 04</span> — the re8 debug probe: USB-C to the host, ribbon cable to the expansion header</span><span>debug probe</span></div>
+      <div class="cap"><span><span class="fig-no">fig. 08</span> — the re8 debug probe: USB-C to the host, ribbon cable to the expansion header</span><span>debug probe</span></div>
     </div>
 
     <div class="grid grid-3">
@@ -506,7 +552,7 @@
 
     <div class="figure" style="margin-bottom:18px;">
       <img src="renders/re8-vscode-sdk.png" alt="the re8 VS Code extension debugging a running game">
-      <div class="cap"><span><span class="fig-no">fig. 05</span> — paused at a collision breakpoint: code, variables, VRAM inspector and emulator in one view</span><span>vs code</span></div>
+      <div class="cap"><span><span class="fig-no">fig. 09</span> — paused at a collision breakpoint: code, variables, VRAM inspector and emulator in one view</span><span>vs code</span></div>
     </div>
 
     <div class="grid grid-2">
@@ -554,7 +600,11 @@
 </div>
 
 <footer>
-  re8 · july 2026 · <a href="re8-console-spec.html" style="color:inherit;">technical specification</a> · subject to change prior to production
+  re8 · july 2026 · <a href="re8-console-spec.html" style="color:inherit;">technical specification</a><br>
+  <span style="display:inline-block; max-width:760px; margin-top:12px; text-transform:none; letter-spacing:0; line-height:1.6;">
+  re8 is a concept project. No hardware has been manufactured and no partnership exists. 8BitDo, SEGA and every other company or product named on this page
+  are unaffiliated with, and unaware of, this work; all trademarks remain the property of their respective owners. Accessory images are concept renders
+  generated with Google Gemini from the original products' photography.</span>
 </footer>
 
 <script>
