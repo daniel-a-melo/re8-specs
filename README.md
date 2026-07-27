@@ -6,7 +6,13 @@
 <p align="center"><strong>a boutique 2D console built from factory-fresh parts</strong></p>
 <p align="center"><a href="https://re8.dev">re8.dev</a></p>
 
+<p align="center">
+  <img src="renders/re8-hero.png" width="820" alt="re8 console, hero render">
+</p>
+
 ---
+
+> **A note on reality:** re8 isn't a real product — not yet, anyway. It's a detailed design exercise, and none of this hardware has been built. Any partnership shown in this repo is imagined: the companies named have no knowledge of, or involvement in, this project, and all trademarks remain theirs.
 
 **re8** is a ground-up 2D games console specified around a W65C02S CPU and a single custom ASIC (**oito**) — video, 16-voice audio, cartridge mapping and system glue in one chip. No New Old Stock: every part is currently manufactured. This repo holds the normative specification, design history, diagrams and brand assets.
 
