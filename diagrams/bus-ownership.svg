@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="ui-sans-serif,system-ui,sans-serif">
+<style>.t{fill:var(--fg,#111)} .m{fill:var(--muted,#555);font-size:11px}.b{fill:none;stroke:var(--fg,#111);stroke-width:1.4}.d{fill:none;stroke:var(--muted,#777);stroke-width:1;stroke-dasharray:4 3} .h{font-size:13px;font-weight:600}.k{font-size:11px;font-family:ui-monospace,monospace}</style>
+<text class="t h" x="14" y="24">re8 — BUS OWNERSHIP (generated from tools-bus-model.py)</text>
+<text class="m" x="14" y="42">One-hot host-bus owner. The private VRAM bus has a single master and is arbitrated by slot priority, not ownership.</text>
+<rect class="b" x="30" y="62" width="195" height="52" rx="6"/>
+<text class="t k" x="42" y="84">owner = none</text>
+<text class="m" x="42" y="102">RES̄ asserted · no selects</text>
+<rect class="b" x="245" y="62" width="195" height="52" rx="6"/>
+<text class="t k" x="257" y="84">owner = cpu</text>
+<text class="m" x="257" y="102">normal execution</text>
+<rect class="b" x="460" y="62" width="195" height="52" rx="6"/>
+<text class="t k" x="472" y="84">owner = oito</text>
+<text class="m" x="472" y="102">PCM refill · OAM DMA</text>
+<rect class="b" x="675" y="62" width="195" height="52" rx="6"/>
+<text class="t k" x="687" y="84">owner = probe</text>
+<text class="m" x="687" y="102">live memory · bootstrap</text>
+<path class="d" d="M225 88 h20"/>
+<path class="d" d="M440 88 h20"/>
+<path class="d" d="M655 88 h20"/>
+<text class="t h" x="14" y="150">What each owner drives</text>
+<text class="t k" x="24" y="172">cpu</text>
+<text class="m" x="185" y="172">A0–A15, D0–D7, R/W̄</text>
+<text class="t k" x="24" y="192">oito</text>
+<text class="m" x="185" y="192">A0–A15, D0–D7, R/W̄ (BE low)</text>
+<text class="t k" x="24" y="212">probe</text>
+<text class="m" x="185" y="212">A0–A15 + R/W̄ from storage latches; D0–D7 on writes</text>
+<text class="t k" x="24" y="232">oito, ALWAYS</text>
+<text class="m" x="185" y="232">BANK0–BANK5 — mapper outputs, never released</text>
+<text class="t h" x="14" y="278">DBACK — outbound hardware grant, in every state</text>
+<text class="m" x="24" y="300">NORMAL</text>
+<text class="t k" x="190" y="300">DBACK = 0</text>
+<text class="m" x="300" y="300">receive only</text>
+<text class="m" x="24" y="319">DEBUG entry</text>
+<text class="t k" x="190" y="319">DBACK = 0</text>
+<text class="m" x="300" y="319">receive only</text>
+<text class="m" x="24" y="338">DEBUG jam/read</text>
+<text class="t k" x="190" y="338">DBACK = 1</text>
+<text class="m" x="300" y="338">D0–D7 injected · BE HIGH</text>
+<text class="m" x="24" y="357">DEBUG jam/write</text>
+<text class="t k" x="190" y="357">DBACK = 1</text>
+<text class="m" x="300" y="357">D driver OFF · capture stack byte</text>
+<text class="m" x="24" y="376">ACQUIRE_WAIT</text>
+<text class="t k" x="190" y="376">DBACK = 0</text>
+<text class="m" x="300" y="376">owner = none during turnaround</text>
+<text class="m" x="24" y="395">OWNED</text>
+<text class="t k" x="190" y="395">DBACK = 1</text>
+<text class="m" x="300" y="395">BE low</text>
+<text class="m" x="24" y="414">timeout / RES̄</text>
+<text class="t k" x="190" y="414">DBACK = 0</text>
+<text class="m" x="300" y="414">revoked before BE is released</text>
+<text class="m" x="480" y="300">Receive-buffer outputs and drive-buffer inputs use DIFFERENT MCU pins.</text>
+<text class="m" x="480" y="319">/OE_ARW = !DBACK OR BE</text>
+<text class="m" x="480" y="338">/OE_DATA = !DBACK OR (BE XOR R/W̄)</text>
+<text class="m" x="480" y="357">Every /OE has a passive pull-up; DBACK revocation is hardware-effective.</text>
+<text class="m" x="480" y="376">t_TA ≥ 1 PHI2 cycle = 139.7 ns, starting after connector high-Z.</text>
+<text class="t h" x="14" y="438">Host request priority</text>
+<text class="m" x="24" y="460">RES̄  &gt; finish current oito transfer  &gt; DEBUG / probe ACQUIRE  &gt; OAM DMA  &gt; PCM  &gt; CPU</text>
+<text class="m" x="24" y="481">Every master change: old outputs high-Z → owner = none → t_TA → new owner. No suspend/resume.</text>
+<text class="m" x="24" y="502">PCM acceptance = cartridge-byte falling edge; OAM acceptance = system-RAM-byte falling edge.</text>
+</svg>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Inter, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="Inter, Helvetica, Arial, sans-serif">
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#334"/></marker></defs>
 <style>
 .t{font-size:12.5px;fill:#20262e;font-weight:600}.s{font-size:10.5px;fill:#4d5560}
@@ -9,59 +9,66 @@
 .oito{fill:#e3efec;stroke:#0e7a6c;stroke-width:2;rx:8}
 .w{stroke:#334;stroke-width:1.6;fill:none}
 </style>
-<text x="20" y="26" class="hdr">re8 — AUDIO SIGNAL CHAIN (16-voice APU)</text>
+<text x="20" y="26" class="hdr">re8 &#8212; AUDIO SIGNAL CHAIN (16-voice APU)</text>
 
 <rect class="oito" x="30" y="52" width="240" height="248"/>
 <text x="150" y="76" class="t" text-anchor="middle">oito APU</text>
 <rect class="box" x="48" y="92" width="204" height="40"/>
-<text x="150" y="110" class="s" text-anchor="middle">4 × PSG — 3 pulse + 1 noise</text>
-<text x="150" y="125" class="lbl" text-anchor="middle">12-bit period @ master÷12 · 27.3 Hz–112 kHz</text>
+<text x="150" y="110" class="s" text-anchor="middle">4 &#215; PSG &#8212; 3 pulse + 1 noise</text>
+<text x="150" y="125" class="lbl" text-anchor="middle">12-bit period @ master&#247;12 &#183; 27.3 Hz&#8211;112 kHz</text>
 <rect class="box" x="48" y="138" width="204" height="40"/>
-<text x="150" y="156" class="s" text-anchor="middle">8 × wavetable</text>
-<text x="150" y="171" class="lbl" text-anchor="middle">32-sample slots · 512 B on-die wave RAM</text>
+<text x="150" y="156" class="s" text-anchor="middle">8 &#215; wavetable</text>
+<text x="150" y="171" class="lbl" text-anchor="middle">32-sample slots &#183; 512 B on-die wave RAM</text>
 <rect class="box" x="48" y="184" width="204" height="44"/>
-<text x="150" y="202" class="s" text-anchor="middle">4 × PCM / IMA-ADPCM</text>
+<text x="150" y="202" class="s" text-anchor="middle">4 &#215; PCM / IMA-ADPCM</text>
 <text x="150" y="217" class="lbl" text-anchor="middle">streamed from cart ROM by bus-master steal</text>
 <rect class="box" x="48" y="234" width="204" height="48"/>
-<text x="150" y="252" class="s" text-anchor="middle">mixer — 20-bit accumulator</text>
-<text x="150" y="267" class="lbl" text-anchor="middle">×volume → hard clamp to 16-bit</text>
+<text x="150" y="252" class="s" text-anchor="middle">mixer &#8212; 24-bit accumulator</text>
+<text x="150" y="267" class="lbl" text-anchor="middle">&#215;volume &#8594; saturate to 16-bit</text>
 <text x="150" y="279" class="a" text-anchor="middle">47,940.3 Hz</text>
 
-<path class="w" d="M270 150H340" marker-end="url(#a)"/>
-<text x="305" y="142" class="lbl" text-anchor="middle">I²S</text>
-<text x="305" y="166" class="a" text-anchor="middle">BCLK 3.068 MHz</text>
-<text x="305" y="180" class="a" text-anchor="middle">MCLK 6.136 MHz</text>
+<path class="w" d="M270 150H352" marker-end="url(#a)"/>
+<text x="311" y="143" class="lbl" text-anchor="middle">mixer out</text>
+<text x="311" y="166" class="a" text-anchor="middle">47,940.3 Hz</text>
 
-<rect class="box" x="340" y="120" width="180" height="62"/>
-<text x="430" y="144" class="t" text-anchor="middle">DIT4192</text>
-<text x="430" y="161" class="s" text-anchor="middle">I²S → S/PDIF transmitter</text>
-<text x="430" y="175" class="a" text-anchor="middle">3.3 V</text>
+<rect class="oito" x="352" y="108" width="212" height="86"/>
+<text x="458" y="130" class="t" text-anchor="middle">resampler (in oito)</text>
+<text x="458" y="147" class="s" text-anchor="middle">polyphase FIR &#183; P &#215; T &#8212; NOT YET DESIGNED</text>
+<text x="458" y="162" class="lbl" text-anchor="middle">servo-trimmed from FIFO fill &#183; filter deferred (&#167;16.2.1)</text>
+<text x="458" y="180" class="a" text-anchor="middle">AUDXI 12.288 MHz</text>
 
-<path class="w" d="M520 151H590" marker-end="url(#a)"/>
-<rect class="box" x="590" y="120" width="180" height="62"/>
-<text x="680" y="144" class="t" text-anchor="middle">TOSLINK module</text>
-<text x="680" y="161" class="s" text-anchor="middle">optical output</text>
-<text x="680" y="175" class="a" text-anchor="middle">3.3 V</text>
-<path class="w" d="M770 151H840" marker-end="url(#a)"/>
-<text x="855" y="147" class="s" text-anchor="middle">S/PDIF</text>
-<text x="855" y="162" class="s" text-anchor="middle">out</text>
+<path class="w" d="M564 151H652" marker-end="url(#a)"/>
+<text x="608" y="143" class="lbl" text-anchor="middle">I&#178;S</text>
+<text x="608" y="167" class="a" text-anchor="middle">48.000 kHz</text>
 
-<path class="w" d="M270 258H340" marker-end="url(#a)"/>
-<text x="305" y="250" class="lbl" text-anchor="middle">2× PWM</text>
-<text x="305" y="272" class="a" text-anchor="middle">Δ-Σ 2nd order</text>
-<text x="305" y="286" class="a" text-anchor="middle">master÷8</text>
+<rect class="box" x="652" y="112" width="212" height="78"/>
+<text x="758" y="134" class="t" text-anchor="middle">CH7035B</text>
+<text x="758" y="151" class="s" text-anchor="middle">TERC4 packing &#183; N = 6144</text>
+<text x="758" y="166" class="lbl" text-anchor="middle">3-wire I&#178;S in &#183; 2ch 16-bit LPCM</text>
+<text x="758" y="183" class="a" text-anchor="middle">HDMI 1080p60</text>
 
-<rect class="box" x="340" y="228" width="180" height="62"/>
-<text x="430" y="252" class="t" text-anchor="middle">NJM4556 stage</text>
-<text x="430" y="269" class="s" text-anchor="middle">3rd-order LPF @20 kHz</text>
-<text x="430" y="283" class="a" text-anchor="middle">5 V · 1 Vrms · ≤100 Ω</text>
+<path class="w" d="M864 151H928" marker-end="url(#a)"/>
+<text x="952" y="147" class="s" text-anchor="middle">HDMI</text>
+<text x="952" y="162" class="s" text-anchor="middle">A/V out</text>
 
-<path class="w" d="M520 246H590" marker-end="url(#a)"/>
-<path class="w" d="M520 272H590" marker-end="url(#a)"/>
-<text x="620" y="250" class="s">3.5 mm line-out</text>
-<text x="620" y="276" class="s">SCART audio pins</text>
+<path class="w" d="M270 258H352" marker-end="url(#a)"/>
+<text x="311" y="251" class="lbl" text-anchor="middle">2&#215; PWM</text>
+<text x="311" y="274" class="a" text-anchor="middle">master&#247;8</text>
 
-<text x="30" y="330" class="lbl">Channel status declares 48 kHz with variable accuracy — S/PDIF has no code for 47,940 Hz; receivers recover the true clock from the biphase stream.</text>
-<text x="30" y="348" class="lbl">The I²S pins are physically unconnected to the CH7035B: the digital video link is strict DVI-D and carries no audio.</text>
-<text x="30" y="366" class="lbl">Output is muted until the supervisor releases reset and the APU is enabled, and re-mutes on brownout.</text>
+<rect class="box" x="352" y="220" width="212" height="76"/>
+<text x="458" y="242" class="t" text-anchor="middle">NJM4556AM stage</text>
+<text x="458" y="259" class="s" text-anchor="middle">&#916;-&#931; 2nd order &#8594; 3rd-order LPF @20 kHz</text>
+<text x="458" y="274" class="lbl" text-anchor="middle">back-porch clamp &#183; muted until rails valid</text>
+<text x="458" y="290" class="a" text-anchor="middle">5 V &#183; 1 Vrms &#183; &#8804;100 &#937;</text>
+
+<path class="w" d="M564 236H652" marker-end="url(#a)"/>
+<path class="w" d="M564 258H652" marker-end="url(#a)"/>
+<path class="w" d="M564 280H652" marker-end="url(#a)"/>
+<text x="660" y="240" class="s">3.5 mm line-out</text>
+<text x="660" y="262" class="s">RCA pair (L/R)</text>
+<text x="660" y="284" class="s">SCART audio pins</text>
+
+<text x="30" y="332" class="lbl">The analog paths are fed from the mixer directly. Only the HDMI path is resampled, so the golden audio vector of &#167;8.5 is taken before any conversion.</text>
+<text x="30" y="350" class="lbl">2-channel 16-bit LPCM at 48 kHz is the one format every HDMI sink must support, so it is transmitted unconditionally with no EDID read.</text>
+<text x="30" y="368" class="lbl">The APU and the audio oscillator are independent crystals; the servo holds the FIFO centred so no sample is ever dropped or repeated.</text>
 </svg>

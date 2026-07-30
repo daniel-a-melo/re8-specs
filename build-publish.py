@@ -91,8 +91,45 @@ def verify():
     total = sum(f.stat().st_size for f in PUB.rglob("*") if f.is_file())
     log(f"verified: all references resolve · {total/1024/1024:.2f} MB total")
 
+def bus_model():
+    """Prove the bus properties, then regenerate the tables the spec publishes.
+
+    Order matters: if a property fails, the tables must not be regenerated from
+    a model that violates its own contract.
+    """
+    log("checking bus model (tools-bus-model.py)...")
+    if subprocess.run([sys.executable, "tools-bus-model.py"], cwd=str(ROOT),
+                      stdout=subprocess.DEVNULL).returncode:
+        sys.exit("build aborted: a bus property or historical regression failed")
+    if subprocess.run([sys.executable, "tools-bus-inject.py"], cwd=str(ROOT)).returncode:
+        sys.exit("build aborted: tools-bus-inject.py failed")
+
+
+def generate_spec_html():
+    """Regenerate re8-console-spec.html from the Markdown, BEFORE verification.
+
+    The Markdown is the sole editable normative source. This step used to be a
+    manual one, and the result was a checked-in HTML that sat at v0.8 while the
+    Markdown reached v0.11 — three revisions of contract drift behind a page the
+    README calls normative, shipped by a clean successful build.
+    """
+    log("generating re8-console-spec.html from re8-console-spec.md…")
+    if subprocess.run([sys.executable, "tools-build-spec-html.py"], cwd=str(ROOT)).returncode:
+        sys.exit("build aborted: tools-build-spec-html.py failed")
+
+
+def consistency():
+    """Fail the build if the spec contradicts the model, the ledger or itself."""
+    log("checking spec consistency (tools-verify.py)…")
+    if subprocess.run([sys.executable, "tools-verify.py"], cwd=str(ROOT)).returncode:
+        sys.exit("build aborted: tools-verify.py reported failures")
+
+
 if __name__ == "__main__":
     print("building publish/ from source…")
+    bus_model()            # prove the behaviour, then regenerate its tables
+    generate_spec_html()   # generate the page, so the verifier checks what will ship
+    consistency()
     PUB.mkdir(exist_ok=True)
     build_renders(); build_index(); build_spec(); build_assets(); verify()
     print("done.")

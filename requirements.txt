@@ -1,0 +1,12 @@
+# Python dependencies for the re8 build and verification tools.
+#
+# tools-build-spec-html.py imports `markdown`; build-publish.py runs it BEFORE
+# verifying, so without this the documented one-command build aborts on a clean
+# checkout with ModuleNotFoundError. The README used to list only cwebp as a
+# dependency, and cwebp is the optional one.
+#
+#     python3 -m pip install -r requirements.txt
+#
+# Pinned, because the generated HTML is a published artefact and a renderer
+# upgrade would change it silently.
+markdown==3.10.2

@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>re8 — technical specification</title>
-<meta name="description" content="re8 — a boutique 2D console built from factory-fresh parts. One custom chip drives 2 background planes, 128 sprites, a 16-voice APU, a hardware text layer and a hardware mouse cursor. Keyboard and mouse supported.">
+<meta name="description" content="re8 — a boutique 2D console design targeting factory-fresh parts. One custom chip drives 2 background planes, 128 sprites, a 16-voice APU, a hardware text layer and a hardware mouse cursor.">
 <link rel="canonical" href="https://re8.dev/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://re8.dev/">
 <meta property="og:site_name" content="re8">
 <meta property="og:title" content="re8 — a modern 8-bit console">
-<meta property="og:description" content="A ground-up 2D console: one custom chip, 16-voice audio, hardware text and mouse layers, keyboard and mouse support, and a modern prog8 SDK.">
+<meta property="og:description" content="A ground-up 2D console design: one custom chip, 16-voice audio, hardware text and mouse layers, keyboard and mouse support, and a planned prog8 SDK.">
 <meta property="og:image" content="https://re8.dev/social-preview.png">
 <meta property="og:image:secure_url" content="https://re8.dev/social-preview.png">
 <meta property="og:image:type" content="image/png">
@@ -21,11 +21,11 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="re8 — a modern 2D console">
-<meta name="twitter:description" content="One custom chip. 16-voice audio, hardware text and cursor layers, keyboard and mouse support, modern SDK.">
+<meta name="twitter:description" content="One custom chip. 16-voice audio, hardware text and cursor layers, keyboard and mouse support, planned SDK.">
 <meta name="twitter:image" content="https://re8.dev/social-preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     /* re8 brand palette */
@@ -282,7 +282,7 @@
       <img src="brand/re8-mark.svg" alt="re8 logo" style="width:76px; height:76px; flex-shrink:0;">
     </div>
     <h1 class="title">the <em>re8</em> console</h1>
-    <p class="subtitle">A boutique, ground-up 2D console that marries the <strong>zero-emulation, deterministic architecture of the 8-bit era</strong> with the <strong>pixel-pushing muscle of early-90s arcade silicon</strong> — built entirely from factory-fresh components and one custom chip.</p>
+    <p class="subtitle">A boutique, ground-up 2D console that marries the <strong>zero-emulation, deterministic architecture of the 8-bit era</strong> with the <strong>pixel-pushing muscle of early-90s arcade silicon</strong> — designed around factory-fresh components and one custom chip.</p>
 
     <div class="stat-row">
       <div class="stat-cell"><b>7.16 MHz</b><span>w65c02s</span></div>
@@ -291,7 +291,7 @@
       <div class="stat-cell"><b>64</b><span>colors</span></div>
       <div class="stat-cell"><b>16</b><span>audio voices</span></div>
       <div class="stat-cell"><b>130 nm</b><span>custom silicon</span></div>
-      <div class="stat-cell"><b>prog8</b><span>native sdk</span></div>
+      <div class="stat-cell"><b>prog8</b><span>planned sdk</span></div>
     </div>
 
     <div class="figure">
@@ -303,12 +303,12 @@
   <!-- 01 PHILOSOPHY -->
   <section id="overview">
     <div class="sec-head"><span class="sec-no">01</span><h2 class="h-title">Built like an 8-bit machine. Pushes like an arcade board.</h2></div>
-    <p class="lede">re8 sits deliberately between two eras: the lean, fully-understood bus architecture of the NES and PC&nbsp;Engine, and the raw pixel-pushing muscle of a 1990s arcade PCB. Every chip on the board is in active production today — nothing is sourced from dwindling New&nbsp;Old&nbsp;Stock — so the platform you build for is the platform that ships, for as long as the fab lines run.</p>
+    <p class="lede">re8 sits deliberately between two eras: the lean, fully-understood bus architecture of the NES and PC&nbsp;Engine, and the raw pixel-pushing muscle of a 1990s arcade PCB. Its design rule is a factory-fresh bill of materials rather than dwindling New&nbsp;Old&nbsp;Stock. Exact ordering codes and lifecycle evidence are still open qualification work for part of that bill of materials.</p>
     <div class="grid grid-4">
       <div class="card"><h3><span class="tick">◆</span>Zero-emulation</h3><p>A bare-metal 6502-family core and discrete custom silicon — no soft-cores, no interpretation layer between your code and the hardware.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Factory-fresh BOM</h3><p>Every part, from the CPU to the SRAM, is a currently-manufactured component you can order today — not a finite stash of vintage stock.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Factory-fresh BOM target</h3><p>The console is specified around newly manufactured parts rather than vintage stock. The specification tracks the remaining orderability and lifecycle evidence instead of treating it as settled.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Do it in hardware</h3><p>Text, the mouse pointer, hit-testing, controller protocols, keyboard decoding — all handled by the chip, so the CPU stays free for your game.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Modern SDK</h3><p>A structured language (prog8), an event-driven library, a hardware debug probe and a WASM emulator bring 2020s ergonomics to an 8-bit bus.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Modern SDK plan</h3><p>The planned prog8 library, hardware debug probe and WASM emulator bring 2020s ergonomics to an 8-bit bus once their published validation gates close.</p></div>
     </div>
   </section>
 
@@ -323,7 +323,7 @@
         <ul class="feature-list">
           <li>Two native resolutions — <b>256×224</b> and <b>320×224</b> — both progressive <b>240p at 60Hz</b>.</li>
           <li><b>64 on-screen colors</b> at once, chosen from a 4,096-color master palette.</li>
-          <li><b>Two independent scrolling backgrounds</b> plus <b>128 sprites</b> (32 per scanline), with hardware collision detection built into the chip.</li>
+          <li><b>Two independent scrolling backgrounds</b> plus <b>128 sprites</b> (up to 32 per scanline, also subject to a pattern-fetch budget), with hardware collision detection built into the chip.</li>
           <li>A <b>mini-blitter</b> for full-screen effects, destructible terrain and procedural graphics.</li>
           <li>A dedicated <b>text layer</b> floats above the game — crisp menus, dialogue and HUDs that cost you no sprites at all.</li>
         </ul>
@@ -335,7 +335,7 @@
           <li><b>4 enhanced PSG</b> channels (3 pulse + noise) with envelopes and sweep for classic bite.</li>
           <li><b>8 wavetable</b> voices for rich, evolving instruments you design yourself.</li>
           <li><b>4 sample channels</b> — real drums, speech and stingers streamed straight from the cartridge.</li>
-          <li>Out via <b>optical S/PDIF</b> for pristine digital audio, or the analog line-out and SCART.</li>
+          <li>Designed for <b>48&nbsp;kHz stereo digital A/V</b> and a real 1&nbsp;V<sub>rms</sub> analog line-out — 3.5&nbsp;mm, RCA and SCART. The digital-audio resampler remains an open implementation gate.</li>
         </ul>
       </div>
       <div class="glance-row">
@@ -344,16 +344,16 @@
           <li><b>Two front DB9 ports</b> for two-player action, compatible with <b>Sega Genesis / Mega Drive</b> pads — 3-button and 6-button, vintage or modern clones.</li>
           <li><b>Plug in a PS/2 keyboard</b> through a simple passive adaptor. Every existing joystick game becomes keyboard-playable automatically — the console maps the keys for you.</li>
           <li><b>Plug in a PS/2 mouse</b> and the console draws and moves the pointer itself, in hardware. Strategy, simulation and point-and-click games finally have a home on a machine like this.</li>
-          <li>Sub-frame input response on every device.</li>
+          <li>Gamepads are acquired about every <b>2.5&nbsp;ms</b>; keyboard and mouse events follow their PS/2 device-report cadence.</li>
         </ul>
       </div>
       <div class="glance-row">
         <div class="glance-head"><span class="no">d</span><h3>Cartridges &amp; saves</h3></div>
         <ul class="feature-list">
-          <li>Real <b>parallel flash cartridges</b> up to <b>1&nbsp;MB</b> — code runs straight from the cart with no loading screens.</li>
+          <li>Real <b>parallel flash cartridges</b> up to <b>1&nbsp;MB</b> — code executes in place, with no mandatory ROM-to-RAM preload.</li>
           <li><b>Battery-free saves.</b> Saving carts use FRAM, so your progress doesn't die with a coin cell in fifteen years.</li>
           <li>An optional <b>SD cartridge</b> plays digitally-distributed games and carries firmware updates.</li>
-          <li>Boots in a moment to a real firmware — logo, self-test, and a friendly screen if a cart is missing or damaged.</li>
+          <li>The two-stage firmware design covers the logo, self-test, cartridge validation and recovery from a missing or damaged cartridge.</li>
         </ul>
       </div>
     </div>
@@ -370,16 +370,16 @@
     <p class="lede">One CPU, one custom chip, and memory you can count on your fingers. The point of re8 isn't scale — it's that a single developer can understand every cycle, every byte and every wire, and still ship something that looks and sounds like an arcade board.</p>
 
     <div class="grid grid-3" style="margin-bottom:18px;">
-      <div class="card"><span class="num">7.16<span class="unit"> MHz</span></span><h3>W65C02S, running flat out</h3><p>A fully-static, in-production CMOS 6502 clocked at exactly one third of the master clock, so every scanline is an exact <b>455 CPU cycles</b>. Deterministic timing you can actually plan against.</p></div>
-      <div class="card"><span class="num">16<span class="unit"> KB</span></span><h3>System RAM</h3><p>Fast asynchronous SRAM on the CPU bus. Small on purpose: the SDK enforces the budget at compile time, so you find out at build, not at 3am.</p></div>
+      <div class="card"><span class="num">7.16<span class="unit"> MHz</span></span><h3>W65C02S, synchronous by design</h3><p>A fully-static CMOS 6502-family CPU clocked at exactly one third of the master clock, so every scanline is an exact <b>455 CPU cycles</b>. Deterministic timing you can actually plan against.</p></div>
+      <div class="card"><span class="num">16<span class="unit"> KB</span></span><h3>System RAM</h3><p>Fast asynchronous SRAM on the CPU bus. Small on purpose: the planned SDK build enforces the declared budget at compile time.</p></div>
       <div class="card"><span class="num">128<span class="unit"> KB</span></span><h3>Video RAM</h3><p>On a private bus straight into oito, so graphics fetches never fight the CPU for the main bus.</p></div>
     </div>
 
     <div class="split">
       <div>
         <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Cartridges that behave like memory</h3>
-        <p>Games live on parallel NOR flash and execute <b>in place</b> — there's no load step, no decompression stage, no streaming budget. A console-side mapper gives you a fixed 16&nbsp;KB window for your engine and a switchable window for everything else, up to <b>1&nbsp;MB</b> per cartridge.</p>
-        <p>Because the mapper lives in the console rather than the cartridge, a game cart is a single chip on a two-layer board — which is what keeps small print runs viable.</p>
+        <p>Games live on parallel NOR flash and execute <b>in place</b> — there is no mandatory preload or decompression stage before code can run. A console-side mapper gives you a fixed 16&nbsp;KB window for your engine and a switchable window for everything else, up to <b>1&nbsp;MB</b> per cartridge.</p>
+        <p>Because the mapper lives in the console rather than the cartridge, a plain retail board needs only the NOR flash and one small inverter. Saving cartridges add FRAM.</p>
       </div>
       <div>
         <h3 style="font-family:var(--head); font-size:1.05rem; margin:0 0 10px;">Saves that outlive the hardware</h3>
@@ -392,7 +392,7 @@
   <!-- 04 OITO -->
   <section id="oito" class="alt">
     <div class="sec-head"><span class="sec-no">04</span><h2 class="h-title">Meet oito — the chip that does the work</h2></div>
-    <p class="lede">Every distinctive thing about re8 lives in one custom ASIC, fabricated on an open 130&nbsp;nm process. oito is the graphics processor, the sound chip, the cartridge mapper, the input controller and the system glue — and it deliberately takes on jobs that other machines leave to the CPU.</p>
+    <p class="lede">Every distinctive thing about re8 lives in one custom ASIC targeted to an open 130&nbsp;nm process. oito is the graphics processor, the sound chip, the cartridge mapper, the input controller and the system glue — and it deliberately takes on jobs that other machines leave to the CPU.</p>
 
     <div class="figure" style="margin-bottom:22px;">
       <img src="renders/re8-asic.png" alt="the oito custom ASIC">
@@ -400,46 +400,48 @@
     </div>
 
     <div class="grid grid-2" style="margin-bottom:16px;">
-      <div class="card"><h3><span class="tick">◆</span>Two background planes + 128 sprites</h3><p>Two independently scrolling 512×256 playfields with per-tile priority and flipping, plus 128 hardware sprites (32 per scanline) in sizes from 8×8 to 32×32. Sprites carry their own priority, so foreground detail can pass in front of one plane and behind another.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Two background planes + 128 sprites</h3><p>Two independently scrolling 512×256 playfields with per-tile priority and flipping, plus 128 hardware sprites in sizes from 8×8 to 64×64. A line admits up to 32 sprites within a mode-and-scroll-dependent pattern budget of at most 512 bytes. Sprites carry their own priority, so foreground detail can pass in front of one plane and behind another.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Hardware collision</h3><p>oito compares opaque sprite pixels as it draws the line and reports the exact pair that touched — no bounding boxes, no per-frame CPU sweeps, no false positives on transparent pixels.</p></div>
       <div class="card"><h3><span class="tick">◆</span>A text layer, free of charge</h3><p>A dedicated character layer composites above everything else, with its own font in the chip. Menus, dialogue boxes, subtitles and debug overlays cost <b>zero sprites</b> and zero tile budget — and a game can load its own typeface. 40 columns, or 80 in condensed mode.</p></div>
       <div class="card"><h3><span class="tick">◆</span>A mouse pointer drawn in silicon</h3><p>Give oito a cursor graphic once and it owns the rest: reading the mouse, moving the pointer, clamping it to the screen and compositing it above every layer. Your game just receives move and click events.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Ask what's under the pointer</h3><p>Hardware hit-testing reports which sprite and which background tile sit beneath the cursor. What would be a per-click search loop on other machines is a register read here — the difference between a sluggish strategy game and a responsive one.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>16-voice audio unit</h3><p>PSG, wavetable and sampled voices on one die, mixed internally at ~48&nbsp;kHz and delivered as clean digital audio. Samples stream directly from the cartridge, so speech and real drums don't eat your RAM.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>16-voice audio unit</h3><p>PSG, wavetable and sampled voices on one die, mixed internally at 47,940.3&nbsp;Hz. Samples stream directly from the cartridge, so speech and real drums do not consume system RAM; conversion to nominal 48&nbsp;kHz belongs only to the digital output path.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Mini-blitter</h3><p>A VRAM-to-VRAM engine for copies, fills and masked draws that runs alongside the display, enabling destructible terrain and procedural graphics without hand-rolled CPU loops.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Input, protocols included</h3><p>The Sega 6-button handshake and the PS/2 keyboard and mouse protocols are all implemented in hardware. Game code reads buttons, characters and pointer coordinates — never wire protocols.</p></div>
     </div>
 
-    <p style="color:var(--ink-soft); font-size:0.94rem;">oito is synthesised with an open-source flow against the SkyWater 130&nbsp;nm PDK and packaged as an LQFP-144. <a href="re8-console-spec.html#6-oito-custom-asic">Full register map, data formats and timing →</a></p>
+    <p style="color:var(--ink-soft); font-size:0.94rem;">oito is specified for an open-source flow against the SkyWater 130&nbsp;nm PDK and a custom-pad-ring LQFP-176 package. It has not been fabricated. <a href="re8-console-spec.html#6-oito-custom-asic">Full register map, data formats and timing →</a></p>
   </section>
 
   <!-- 05 A/V OUT -->
   <section id="video-output">
     <div class="sec-head"><span class="sec-no">05</span><h2 class="h-title">Every screen, every era — at the same time</h2></div>
-    <p class="lede">One digital pipeline inside oito feeds every output simultaneously. No switches, no menus, no re-plugging: connect a 1970s portable and a 2026 OLED at once and both show a picture.</p>
+    <p class="lede">The design fans one video pipeline out to every output simultaneously. No mode switch or re-plugging is intended: an analog display and a compatible 1080p60 digital display can be connected at once.</p>
+
+    <div class="note"><b>Digital-output status.</b> The design targets a licensed HDMI&nbsp;1.4b source, but adopter registration, compliance testing, CH7035B qualification and the 47,940.3→48,000&nbsp;Hz audio-resampler design are still open gates. Until they close, digital picture and sound are design targets rather than demonstrated product capabilities.</div>
 
     <div class="table-wrap" style="margin-bottom:18px;">
       <table>
         <thead><tr><th>Output</th><th>Connector</th><th>Best for</th></tr></thead>
         <tbody>
-          <tr><td class="strong">Digital video</td><td class="mono">HDMI-type</td><td>Any modern TV or monitor — a fixed, standard <b>1080p60</b> picture, integer-scaled so pixels stay square and sharp.</td></tr>
+          <tr><td class="strong">Digital A/V</td><td class="mono">19-pin Type-A</td><td>A compatible 1080p60 TV or monitor — fixed <b>1080p60</b> nearest-neighbour video, targeting licensed HDMI&nbsp;1.4b with 48&nbsp;kHz stereo sound on the same cable once the open gates above close.</td></tr>
           <tr><td class="strong">RGB SCART</td><td class="mono">Euro-SCART</td><td>European CRTs, PVMs and premium upscalers — the enthusiast's choice.</td></tr>
           <tr><td class="strong">Analog RGBHV</td><td class="mono">DE-15</td><td>15&nbsp;kHz-capable monitors and upscalers such as the OSSC or RetroTINK. <em>Not</em> standard VGA timing.</td></tr>
           <tr><td class="strong">S-Video</td><td class="mono">4-pin mini-DIN</td><td>A noticeably sharper picture on any classic set that supports it.</td></tr>
           <tr><td class="strong">Composite</td><td class="mono">RCA</td><td>Plugs into essentially any television ever made.</td></tr>
-          <tr><td class="strong">Digital audio</td><td class="mono">TOSLINK</td><td>Optical S/PDIF into a soundbar or AV receiver, plus analog line-out and SCART audio.</td></tr>
+          <tr><td class="strong">Analog audio</td><td class="mono">3.5&nbsp;mm + RCA + SCART</td><td>1&nbsp;V<sub>rms</sub> line-out through a 3rd-order active reconstruction filter, on a 3.5&nbsp;mm line-output connector, an RCA pair and the SCART audio pins. It is not a headphone output.</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="figure" style="margin-bottom:18px;">
-      <img src="renders/re8-back.png" alt="re8 rear panel showing all six output connectors">
-      <div class="cap"><span><span class="fig-no">fig. 04</span> — every output on one panel: DVI-D, RGB 15kHz, RGB SCART, S-Video, composite and DC input</span><span>rear panel</span></div>
+      <img src="renders/re8-back.png" alt="re8 rear-panel concept showing the video connectors and DC input">
+      <div class="cap"><span><span class="fig-no">fig. 04</span> — rear-panel concept: digital A/V, RGB 15kHz, RGB SCART, S-Video, composite and DC input; the current analog-audio connector layout is not represented in this render</span><span>rear panel</span></div>
     </div>
 
     <div class="grid grid-3">
       <div class="card"><h3><span class="tick">◆</span>60Hz everywhere</h3><p>re8 runs at 60Hz worldwide. There is no PAL slowdown, no region-locked timing, and no 50Hz version of a game that plays 17% slower than the developer intended.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Pixel-art-first scaling</h3><p>The digital output uses nearest-neighbour, integer scaling only. No blurring, no interpolation, no smearing of the art you drew pixel by pixel.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Pixel-art-first scaling</h3><p>The digital-output requirement is nearest-neighbour with no interpolation. Integer factors are preferred, but a non-integer nearest-neighbour scale is permitted if the selected scaler needs it.</p></div>
       <div class="card"><h3><span class="tick">◆</span>240p, properly</h3><p>Progressive 240p — never interlaced — so scrolling stays rock-solid on a CRT and clean through a modern upscaler.</p></div>
     </div>
   </section>
@@ -447,7 +449,7 @@
   <!-- 06 INPUT -->
   <section id="controllers" class="alt">
     <div class="sec-head"><span class="sec-no">06</span><h2 class="h-title">Pads, keyboards and mice — all on two ports</h2></div>
-    <p class="lede">re8 takes ordinary Sega Genesis controllers, and the same two ports accept a <strong>PS/2 keyboard or mouse</strong> through a passive adaptor — no powered dongle, no USB stack, no firmware to flash. It's what turns a console into a machine that can also run strategy games, simulations and text adventures.</p>
+    <p class="lede">re8 is designed for ordinary Sega Genesis controllers, and the same two ports accept a <strong>PS/2 keyboard or mouse</strong> through a passive adaptor — no powered dongle, no USB stack, no firmware to flash. It's what turns a console into a machine that can also run strategy games, simulations and text adventures.</p>
 
     <div class="grid grid-3" style="margin-bottom:18px;">
       <div class="card"><h3><span class="tick">◆</span>Genesis pads, both kinds</h3><p>3-button and 6-button pads, vintage or modern reproductions. The console performs the full 6-button handshake itself and tells the game which pad it found.</p></div>
@@ -457,7 +459,7 @@
 
 
     <h3 style="font-family:var(--head); font-size:1.15rem; margin:38px 0 10px;">The re8 edition accessories</h3>
-    <p class="lede" style="margin-bottom:14px;">Three peripherals designed with <strong>8BitDo</strong>, finished in the re8 palette. Each ships with a <strong>2.4G wireless receiver shaped as a Genesis-style plug</strong> — it drops into either controller port, and for the keyboard and mouse it speaks the console's native <strong>PS/2 protocol</strong>, so oito handles the device directly in hardware.</p>
+    <p class="lede" style="margin-bottom:14px;">Three imagined re8 editions based on <strong>8BitDo</strong> accessories, finished in the re8 palette. Each concept includes a <strong>2.4G wireless receiver shaped as a Genesis-style plug</strong> — it drops into either controller port, and for the keyboard and mouse it speaks the console's native <strong>PS/2 protocol</strong>, so oito handles the device directly in hardware.</p>
 
     <div class="note"><b>Imagined partnership.</b> 8BitDo has no involvement in this project and has not been approached. These are concept renders, not products.</div>
 
@@ -478,7 +480,7 @@
 
     <div class="grid grid-3" style="margin-bottom:20px;">
       <div class="card"><h3><span class="tick">◆</span>One receiver, either port</h3><p>The dongle is a Genesis-shaped plug, so it goes into the same DB9 port a pad would use. No adaptor, no console-side setting beyond choosing the port's mode.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Wireless, but native</h3><p>The receiver presents the keyboard or mouse to the console exactly as a wired PS/2 device would — so oito decodes scancodes and moves the pointer in hardware, with no driver and no CPU cost.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Wireless, but native</h3><p>The receiver presents the keyboard or mouse to the console exactly as a wired PS/2 device would — so oito decodes scancodes and moves the pointer in hardware, with no device-protocol driver in game code.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Finished in re8 colours</h3><p>Cream shells with brand-teal accents, matched to the console. The pixel-eight mark sits above Start on the pad, and on the shell of every receiver.</p></div>
     </div>
 
@@ -499,7 +501,7 @@
   <!-- 07 DEV HARDWARE -->
   <section id="expansion">
     <div class="sec-head"><span class="sec-no">07</span><h2 class="h-title">A window into the running machine</h2></div>
-    <p class="lede">An unpopulated 40-pin header on the board exposes the entire CPU bus and the chip's JTAG interface. Fit the connector and the re8 debug probe turns a console with no operating system into something you can single-step.</p>
+    <p class="lede">An unpopulated 42-pin header on the planned board exposes the entire CPU bus and the chip's JTAG interface. With the connector fitted, the re8 debug probe is designed to turn a console with no operating system into something you can single-step.</p>
 
     <div class="figure" style="margin-bottom:20px;">
       <img src="renders/re8-probe.png" alt="the re8 debug probe">
@@ -509,14 +511,16 @@
     <div class="grid grid-3">
       <div class="card"><h3><span class="tick">◆</span>Hardware breakpoints</h3><p>The probe watches the address bus and halts the CPU on the instruction you named — no debug code in your ROM, no performance cost, and the game runs at full speed right up to the moment it stops.</p></div>
       <div class="card"><h3><span class="tick">◆</span>Single-step a static CPU</h3><p>Because the 65C02 is fully static, the clock can be stopped entirely and advanced one cycle at a time with the machine's state perfectly preserved.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Develop without a cartridge</h3><p>A writable dev cartridge is filled directly by the probe over the header, so the edit-build-run loop never involves burning a chip.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Develop without burning ROM</h3><p>A writable dev cartridge is filled directly by the probe over the header; tiny test programs can instead run from system RAM. Neither path requires burning a production cartridge.</p></div>
     </div>
   </section>
 
   <!-- 08 SDK -->
   <section id="dev" class="alt">
     <div class="sec-head"><span class="sec-no">08</span><h2 class="h-title">Write structured code. Ship native 6502.</h2></div>
-    <p class="lede">re8's SDK language is <strong>prog8</strong> — a structured, Python-flavoured language purpose-built for the 6502 family, compiling straight to tight assembly with no runtime and no garbage collector. The library above it is event-driven, and the hardware underneath it removes most of the work that makes 8-bit development tedious.</p>
+    <p class="lede">The planned re8 SDK uses <strong>prog8</strong> — a structured, Python-flavoured language for the 6502 family that compiles to assembly with static allocation and no garbage collector. The planned library above it is event-driven, while the hardware underneath it removes much of the protocol and rendering work that makes 8-bit development tedious.</p>
+
+    <div class="note"><b>SDK status.</b> prog8 can emit 65C02 code, but re8's ROM-resident multi-bank build, initialised-data transformation, IRQ-safety analysis, debug-information path and conformance fixtures are not implemented or validated yet. The examples below show the intended API, not a released SDK.</div>
 
     <div class="grid grid-3" style="margin-bottom:8px;">
       <div class="card"><h3><span class="tick">◆</span>Static by design</h3><p>No heap, no dynamic arrays, no garbage collector. Every variable has a fixed address at compile time, and the build fails if you exceed the RAM budget — you learn at build time, not at 3am.</p></div>
@@ -548,7 +552,7 @@
       <pre><code id="code-3"></code></pre>
     </div>
 
-    <h3 style="font-family:var(--head); font-size:1.15rem; margin:34px 0 12px;">A real debugger, on a machine with no OS</h3>
+    <h3 style="font-family:var(--head); font-size:1.15rem; margin:34px 0 12px;">A debugger plan for a machine with no OS</h3>
 
     <div class="figure" style="margin-bottom:18px;">
       <img src="renders/re8-vscode-sdk.png" alt="the re8 VS Code extension debugging a running game">
@@ -557,21 +561,21 @@
 
     <div class="grid grid-2">
       <div class="card"><h3><span class="tick">◆</span>console.log(), for real hardware</h3><p>Address <code>$4FFF</code> is a write-only "ghost port" with no backing memory. Writing to it costs 4 cycles and does nothing unless a probe or the emulator is listening — so debug logging can ship in production builds while streaming live text to your editor during development.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Source-level debugging</h3><p>The toolchain produces a flat binary with no debug format of its own, so the SDK synthesises the symbol information VS Code needs — giving you breakpoints and stepping against your original prog8 source lines.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Live VRAM inspector</h3><p>A scrollable grid of every loaded tile with palette overlay, hover-to-inspect addresses, the sprite list, and active-scanline highlighting showing what oito is scanning out right now.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Emulator in the editor</h3><p>A hot-reloading WASM emulator runs inside a VS Code panel for instant iteration, sharing the same debug hooks as the physical probe — and an immediate console lets you poke memory or call game functions on the halted machine.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Source-level debugging</h3><p>The planned toolchain turns listing and symbol data into the information VS Code needs for breakpoints and stepping against original prog8 source lines; its exact debug-info path remains a validation gate.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Live VRAM inspector</h3><p>The planned inspector presents a scrollable grid of loaded tiles, palette overlays, sprite state and active-scanline highlighting through the emulator or physical probe.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Emulator in the editor</h3><p>The planned hot-reloading WASM emulator runs inside a VS Code panel and shares debug hooks with the physical probe; an immediate console can inspect or change a halted machine.</p></div>
     </div>
   </section>
 
   <!-- 09 SPEC -->
   <section id="spec-link">
     <div class="sec-head"><span class="sec-no">09</span><h2 class="h-title">The whole machine, written down</h2></div>
-    <p class="lede">Everything on this page is backed by a complete normative specification — the document an implementer would build the hardware or an emulator from. It carries the full register map, data formats, raster and bus timing, the bill of materials with real part numbers, the file and tool ABI, and the conformance contract.</p>
+    <p class="lede">This page is backed by a detailed normative architecture specification — the document intended to guide hardware and emulator implementations. It carries the register map, data formats, raster and bus timing, candidate bill of materials, file and tool ABI, conformance contract, and an explicit staged register of work that is not closed yet.</p>
 
     <div class="grid grid-3" style="margin-bottom:20px;">
       <div class="card"><h3><span class="tick">◆</span>Register-level detail</h3><p>Every register with its reset value, bit fields, read/write side effects and unmapped behaviour — plus pseudocode for the blitter, the compositor and all sixteen audio voices.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Real parts, real timing</h3><p>Named, orderable components with voltage domains and margins; exact clocks, raster structure and bus arbitration.</p></div>
-      <div class="card"><h3><span class="tick">◆</span>Honest about what's unproven</h3><p>The specification lists, by name, everything still to be validated on real silicon before tape-out — rather than quietly implying it's all settled.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Candidate parts, exact timing</h3><p>Named component candidates with voltage domains and margins; exact clocks, raster structure and bus arbitration. Open orderability and lifecycle evidence is tracked explicitly.</p></div>
+      <div class="card"><h3><span class="tick">◆</span>Honest about what's unproven</h3><p>The specification assigns remaining work to SDK, schematic, tapeout, prototype and production-release gates rather than implying it is all settled.</p></div>
     </div>
 
     <div class="btn-row">
@@ -588,7 +592,7 @@
       </div>
       <div class="cta-inner">
         <h2>Build for hardware that respects the constraint.</h2>
-        <p>re8 is a real, manufacturable platform — not a spec-sheet thought experiment. Factory-fresh parts, an open-process custom chip, and a toolchain built specifically so an 8-bit machine doesn't have to feel like 1985 to develop for.</p>
+        <p>re8 is a manufacturability-driven console design, not manufactured hardware. It combines a factory-fresh BOM target, an open-process custom chip and a planned toolchain so an 8-bit machine need not feel like 1985 to develop for.</p>
         <div class="btn-row">
           <a href="#dev" class="btn primary">explore the sdk ↑</a>
           <a href="re8-console-spec.html" class="btn ghost">technical specification →</a>

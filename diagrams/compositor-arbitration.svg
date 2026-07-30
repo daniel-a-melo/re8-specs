@@ -35,28 +35,28 @@
 <text x="506" y="110" class="lbl" fill="#e3efec">always wins — the picture is never corrupted</text>
 
 <rect x="490" y="126" width="300" height="46" fill="#3f9c8f" stroke="#20262e" stroke-width="1.3" rx="6"/>
-<text x="506" y="146" class="t" fill="#fff">2 · Blitter</text>
-<text x="506" y="164" class="lbl" fill="#eaf4f1">blanking-only, or interleaved into spare cycles</text>
+<text x="506" y="146" class="t" fill="#fff">2 · CPU VRAM port / OAM DMA</text>
+<text x="506" y="164" class="lbl" fill="#eaf4f1">legal any time — RDY-stalled until a slot opens</text>
 
 <rect x="490" y="180" width="300" height="46" fill="#e3efec" stroke="#20262e" stroke-width="1.3" rx="6"/>
-<text x="506" y="200" class="t">3 · CPU VRAM port / OAM DMA</text>
-<text x="506" y="218" class="lbl">legal any time — RDY-stalled until a slot opens</text>
+<text x="506" y="200" class="t">3 · Blitter</text>
+<text x="506" y="218" class="lbl">blanking-only, or interleaved into spare cycles</text>
 
 <path class="w" d="M640 118V126" marker-end="url(#a)"/>
 <path class="w" d="M640 172V180" marker-end="url(#a)"/>
 
 <text x="490" y="256" class="t">Per-frame budget — 357,630 accesses</text>
 <g class="s">
-<rect x="490" y="266" width="176" height="20" fill="#0e7a6c"/><text x="676" y="281">BG planes A+B ≈110 K</text>
-<rect x="490" y="290" width="70" height="20" fill="#3f9c8f"/><text x="570" y="305">sprite patterns ≈29–57 K</text>
-<rect x="490" y="314" width="58" height="20" fill="#7fbfb4"/><text x="558" y="329">text layer ≈36 K</text>
+<rect x="490" y="266" width="176" height="20" fill="#0e7a6c"/><text x="676" y="281">BG planes A+B  89–110 K</text>
+<rect x="490" y="290" width="70" height="20" fill="#3f9c8f"/><text x="570" y="305">sprite patterns  113–115 K</text>
+<rect x="490" y="314" width="58" height="20" fill="#7fbfb4"/><text x="558" y="329">text layer  29–36 K</text>
 <rect x="490" y="338" width="4" height="20" fill="#d9d3c6"/><text x="504" y="353">sprite evaluation — 0 (on-die shadow OAM)</text>
-<rect x="490" y="362" width="252" height="20" fill="#f6f3ec" stroke="#8b929c"/><text x="616" y="377" text-anchor="middle" class="lbl">free for blitter + CPU ≈157–182 K</text>
+<rect x="490" y="362" width="252" height="20" fill="#f6f3ec" stroke="#8b929c"/><text x="616" y="377" text-anchor="middle" class="lbl">free: 50 K blanking-only, 98–125 K interleaved</text>
 </g>
-<text x="490" y="404" class="lbl">Display total ≈175–200 K (50–56 %). Margin is adequate, not large:</text>
+<text x="490" y="404" class="lbl">Display total 232–259 K (65–72 %) at the legal worst case. Margin is real but not large:</text>
 <text x="490" y="418" class="lbl">a line of 32 full-width sprites plus both planes can approach saturation.</text>
 
 <text x="490" y="448" class="t">Three sources stall the CPU via RDY</text>
-<text x="490" y="468" class="s">VRAM port contention · OAM DMA (≈683 cycles) · PCM sample fetch (≈2.7–6 %)</text>
+<text x="490" y="468" class="s">VRAM port contention · OAM DMA · PCM sample fetch (≈2.7–6 % of CPU)</text>
 <text x="490" y="486" class="lbl">455 cycles/line is therefore an exact <tspan font-style="normal" font-weight="600">bus</tspan> budget, not a guaranteed instruction budget.</text>
 </svg>

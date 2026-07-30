@@ -1,0 +1,445 @@
+{
+  "_comment": "Every named part, the claim the specification makes about it, and where that claim was verified. 'checked' is the date the source was actually read, not the date the part was chosen. tools-verify.py fails on any entry without a source or a check date.",
+  "parts": [
+    {
+      "part": "W65C02S6TPG-14",
+      "claim": "8 MHz at 3.3 V; tPWH 62 ns / tPWL 63 ns; tDSR 15 ns; tPCS 15 ns; tADS 40 ns at 3.3 V, referenced to the PHI2 FALLING edge",
+      "source": "https://www.wdc65xx.com/wdc/documentation/w65c02s.pdf",
+      "checked": "2026-07-27",
+      "status": "active",
+      "aliases": [
+        "W65C02S"
+      ],
+      "facts": {
+        "T_ADS_NS": 40.0,
+        "T_PWH_MIN_NS": 62.0,
+        "T_PWL_MIN_NS": 63.0
+      },
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "IS61WV1288EEBLL-10TLI",
+      "claim": "128K x 8, 2.4-3.6 V, 10 ns, TSOP-II-32; used for both system RAM and VRAM",
+      "source": "https://www.issi.com/WW/pdf/61-64WV1288EEBLL.pdf",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "replaced IS61C256AL/IS61C1024AL, which are 5 V parts (R2-HW1)",
+      "aliases": [
+        "IS61WV1288"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "MX29LV800CTTI-70G",
+      "claim": "8 Mbit as 1M x 8 in byte mode, 2.7-3.6 V, 70 ns, TSOP-48; BYTE# low, Q15/A-1 is address bit 0",
+      "source": "https://www.macronix.com/en-us/products/NOR-Flash/Parallel-NOR-Flash/Pages/default.aspx",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "replaced SST39VF080, which Microchip publishes as EOL (R2-HW2)",
+      "aliases": [
+        "MX29LV800C",
+        "MX29LV800"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "SST39VF010",
+      "claim": "128 KB parallel NOR, 2.7-3.6 V, 70 ns; boot flash only",
+      "source": "https://www.microchip.com/en-us/product/sst39vf010",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": false,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "FM18W08-SG",
+      "claim": "32K x 8 FRAM, 2.7-5.5 V, 70 ns access / 130 ns cycle; A14 tied low to expose 16 KB",
+      "source": "https://www.infineon.com/part/FM18W08-SG",
+      "checked": "2026-07-27",
+      "status": "active",
+      "open": "corner-case read/write waveform against W65C02S and oito pad timing (R2-HW12)",
+      "aliases": [
+        "FM18W08"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "CH7035B-BFI",
+      "claim": "88-QFN 10x10 mm, -40 to 85 C, MOQ 168/tray; three-wire I2S in on pins 56/57/58 with NO MCLK pin; TERC4 encoder present; 48 kHz among documented I2S rates; DDC pull-ups 1.8 kOhm; HPD 47 kOhm pull-down; reserved pins 43->DVDD, 44->DGND, 50 open",
+      "source": "https://www.chrontel.com.cn/upFiles/images/US/By%20Product/CH7035/Datasheets/CH7035B%20Brief%20datasheet%20Rev1.2.pdf",
+      "checked": "2026-07-27",
+      "status": "provisional",
+      "open": "titled a DVI transmitter; HDMI signalling, InfoFrame/ACR generation from a CH9904 self-boot image, 240p input acceptance, nearest-neighbour scaling, dual geometries and HPD-independent output are all unproven (R4-HDMI2)",
+      "aliases": [
+        "CH7035B",
+        "CH9904"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "AD725",
+      "claim": "RGB to NTSC composite and S-Video, 5 V",
+      "source": "https://www.analog.com/en/products/ad725.html",
+      "checked": "2026-07-27",
+      "status": "provisional",
+      "open": "240p operation is outside its documented interlaced application; bench qualification is a schematic-freeze gate",
+      "opn_complete": false,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TPS2553DBVR-1",
+      "claim": "adjustable current-limit switch, LATCH-OFF variant; suffix order is device, package/carrier, then fault behaviour",
+      "source": "https://www.ti.com/product/TPS2553-1/part-details/TPS2553DBVR-1",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "TPS2553DBVR without the trailing -1 is the constant-current part; the transposed TPS2553-1DBVR does not exist (R7-PWR1)",
+      "aliases": [
+        "TPS2553-1",
+        "TPS2553DBVR"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "74LVC1G04GV",
+      "claim": "single inverter, SOT753; one per cartridge derives OE# = NOT(R/W)",
+      "source": "https://assets.nexperia.com/documents/data-sheet/74LVC1G04.pdf",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "replaced a NAND scheme that could not be built from the active-low edge signals (R6-CART1)",
+      "aliases": [
+        "74LVC1G04"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TS5A23159DGSR",
+      "claim": "dual SPDT analog switch; stereo mute before the branch split",
+      "source": "https://www.ti.com/product/TS5A23159",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "a single N-channel FET cannot mute a signal that swings both sides of ground (R7-AUD2)",
+      "aliases": [
+        "TS5A23159"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "NJM4556AM",
+      "claim": "dual audio op-amp, DMP8, +/-70 mA (not +/-100 mA); AD suffix is not current",
+      "source": "https://www.nisshinbo-microdevices.co.jp/en/products/operational-amplifier/spec/?product=njm4556a",
+      "checked": "2026-07-27",
+      "status": "active",
+      "aliases": [
+        "NJM4556A",
+        "NJM4556AV"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "THS7374IPW",
+      "claim": "4-channel video amplifier, 2x gain, integrated SD filters",
+      "source": "https://www.ti.com/product/THS7374/part-details/THS7374IPW",
+      "checked": "2026-07-27",
+      "status": "active",
+      "aliases": [
+        "THS7374"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "OPA3691ID",
+      "claim": "triple wideband amplifier, unity-gain stable, single +5 V",
+      "source": "https://www.ti.com/product/OPA3691/part-details/OPA3691ID",
+      "checked": "2026-07-27",
+      "status": "active",
+      "aliases": [
+        "OPA3691"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "RP2350B",
+      "claim": "48 GPIO in QFN-80, 3 PIO at 150 MHz",
+      "source": "https://www.raspberrypi.com/products/rp2350/",
+      "checked": "2026-07-27",
+      "status": "active",
+      "open": "each PIO sees only a 32-pin window; a concrete GPIO map is still owed",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "ASEM1-12.288MHZ-LC-T",
+      "claim": "12.288 MHz CMOS oscillator, +/-50 ppm, 3.3 V; AUDXI",
+      "source": "https://abracon.com/Oscillators/ASEM1.pdf",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TPS562201DDCR",
+      "claim": "4.5-17 V, 2 A synchronous buck; used twice (12->5 V, 5->3.3 V)",
+      "source": "https://www.ti.com/product/TPS562201",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TLV75718PDBVR",
+      "claim": "1.8 V LDO, 1 A",
+      "source": "https://www.ti.com/product/TLV757P",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TPS3808G01DBVR",
+      "claim": "voltage supervisor, open-drain, one per rail",
+      "source": "https://www.ti.com/product/TPS3808",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TPD4E1B06DCKR",
+      "claim": "4-channel ESD array for low-voltage signal groups",
+      "source": "https://www.ti.com/product/TPD4E1B06",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "must NOT be used on SCART pin 8, which runs at 9.5-12 V",
+      "aliases": [
+        "TPD4E1B06"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "TPD4E02B04DQAR",
+      "claim": "0.3 pF ESD array for TMDS pairs",
+      "source": "https://www.ti.com/product/TPD4E02B04",
+      "checked": "2026-07-27",
+      "status": "active",
+      "aliases": [
+        "TPD4E02B04"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "SMAJ12A",
+      "claim": "12 V standoff TVS for SCART pin 8",
+      "source": "https://www.littelfuse.com/products/tvs-diodes/axial-leaded-tvs-diodes/smaj.aspx",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "SN74AHCT125",
+      "claim": "quad buffer, 5 V, TTL-level inputs; drives controller SELECT",
+      "source": "https://www.ti.com/product/SN74AHCT125",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": false,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "74LVC244APW,118",
+      "claim": "octal fixed-direction buffer, TSSOP20, 1.2-3.6 V supply, 5 V-tolerant inputs and Ioff partial-power-down; controller receive and debug-probe data-drive paths",
+      "source": "https://www.nexperia.com/product/74LVC244APW",
+      "checked": "2026-07-30",
+      "status": "active",
+      "aliases": [
+        "74LVC244A",
+        "74LVC244APW"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "exact-page",
+      "lifecycle_evidence": "exact-page"
+    },
+    {
+      "part": "74LVC245APW,118",
+      "claim": "octal transceiver, TSSOP20, 1.2-3.6 V supply, 5 V-tolerant inputs and Ioff partial-power-down; debug-probe fixed-direction receive path",
+      "source": "https://www.nexperia.com/product/74LVC245APW",
+      "checked": "2026-07-30",
+      "status": "active",
+      "aliases": [
+        "74LVC245",
+        "74LVC245APW"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "exact-page",
+      "lifecycle_evidence": "exact-page"
+    },
+    {
+      "part": "74LVC595APW,118",
+      "claim": "8-bit serial-in/parallel-out shift register with separate shift and storage clocks, active-low three-state output enable, TSSOP16, 1.2-3.6 V supply and Ioff; debug-probe address/RW storage and drive",
+      "source": "https://www.nexperia.com/product/74LVC595APW",
+      "checked": "2026-07-30",
+      "status": "active",
+      "aliases": [
+        "74LVC595APW"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "exact-page",
+      "lifecycle_evidence": "exact-page"
+    },
+    {
+      "part": "74LVC1G86GV,125",
+      "claim": "single 2-input XOR, TSOP5, 1.65-5.5 V supply and Ioff; debug-probe data-drive enable qualification",
+      "source": "https://www.nexperia.com/product/74LVC1G86GV",
+      "checked": "2026-07-30",
+      "status": "active",
+      "aliases": [
+        "74LVC1G86GV"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "exact-page",
+      "lifecycle_evidence": "exact-page"
+    },
+    {
+      "part": "74LVC2G32DP,125",
+      "claim": "dual 2-input OR, TSSOP8, 1.65-5.5 V supply and Ioff; debug-probe active-low address/RW and data output-enable gates",
+      "source": "https://www.nexperia.com/product/74LVC2G32DP",
+      "checked": "2026-07-30",
+      "status": "active",
+      "aliases": [
+        "74LVC2G32DP"
+      ],
+      "opn_complete": true,
+      "suffix_evidence": "exact-page",
+      "electrical_evidence": "exact-page",
+      "lifecycle_evidence": "exact-page"
+    },
+    {
+      "part": "OPA1662AID",
+      "claim": "dual audio op-amp; substitute for NJM4556AM ONLY with the filter recalculated",
+      "source": "https://www.ti.com/product/OPA1662",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "not pin-and-behaviour interchangeable in every active topology",
+      "opn_complete": true,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "BSS138",
+      "claim": "N-channel MOSFET; PS/2 line pull-down, gate driven push-pull",
+      "source": "https://assets.nexperia.com/documents/data-sheet/BSS138.pdf",
+      "checked": "2026-07-27",
+      "status": "active",
+      "opn_complete": true,
+      "suffix_evidence": "datasheet",
+      "electrical_evidence": "datasheet",
+      "lifecycle_evidence": "none"
+    },
+    {
+      "part": "SST39VF040",
+      "claim": "512 KB parallel NOR; boot-flash family only, not used for cartridges",
+      "source": "https://www.microchip.com/en-us/product/SST39VF040",
+      "checked": "2026-07-27",
+      "status": "active",
+      "note": "cartridges standardised on MX29LV800C (R4-CART2)",
+      "opn_complete": false,
+      "suffix_evidence": "family-page",
+      "electrical_evidence": "family-page",
+      "lifecycle_evidence": "none"
+    }
+  ],
+  "removed": [
+    {
+      "part": "DIT4192",
+      "reason": "TI marks the product LAST TIME BUY, and the DIT4192IDB suffix named in earlier revisions does not exist (only IPW/IPWR, TSSOP-28). The optical S/PDIF output was removed with it.",
+      "source": "https://www.ti.com/product/DIT4192",
+      "checked": "2026-07-27"
+    },
+    {
+      "part": "WM8805",
+      "reason": "Cirrus marks it end-of-life; violated the no-NOS rule."
+    },
+    {
+      "part": "PLT133",
+      "claim": "3.3 V TOSLINK transmitter",
+      "source": "https://www.everlight.com/",
+      "checked": "2026-07-27",
+      "status": "removed",
+      "note": "removed with the optical S/PDIF output (R4-HDMI1)"
+    },
+    {
+      "part": "0ZCJ0150FF2E",
+      "reason": "DOES NOT EXIST. Invented while resolving R8-PWR1 and entered in this ledger with a family landing page as its source and a 'checked' date that recorded no actual reading. The nearest real member is 0ZCJ0150FF2C, whose Vmax is 8 V and is therefore unusable on a 12 V input. The input fuse is now an explicitly unselected item (spec 16.2).",
+      "source": "https://www.belfuse.com/media/datasheets/products/circuit-protection/ds-cp-0zcj-series.pdf",
+      "checked": "2026-07-28"
+    }
+  ],
+  "_evidence_fields": {
+    "opn_complete": "false = `part` is a base/family number, not an orderable one; a suffix must be CHOSEN before it can be verified",
+    "suffix_evidence": "exact-page = the source is a part-details/OPN page for this exact suffix; datasheet = a datasheet was read, but whether its ordering table names this exact suffix is not recorded; family-page = the source cannot establish an orderable suffix at all",
+    "electrical_evidence": "datasheet = the electrical claims in `claim` were read from a datasheet; family-page = they were not",
+    "lifecycle_evidence": "none for every part - no written production-status confirmation has been obtained for any component. This is deliberately uniform rather than inferred from URL shape.",
+    "_why": "One boolean (verified_part_specific) conflated exact-suffix identity, electrical verification and lifecycle, so the 21-part gate in spec 16.2 was mechanically wrong: it listed parts whose source was already an exact TI part-details page. Four orthogonal fields, and tools-verify.py generates the 16.2 queue from them."
+  }
+}

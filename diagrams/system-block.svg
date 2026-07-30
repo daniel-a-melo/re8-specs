@@ -26,12 +26,12 @@
 <!-- system SRAM / boot flash -->
 <rect class="b" x="30" y="170" width="150" height="62"/>
 <text x="105" y="193" class="t" text-anchor="middle">System SRAM</text>
-<text x="105" y="210" class="s" text-anchor="middle">IS61C256AL · 16 KB decoded</text>
+<text x="105" y="210" class="s" text-anchor="middle">IS61WV1288 &#183; 16 KB decoded</text>
 <text x="105" y="224" class="v" text-anchor="middle">3.3 V</text>
 
 <rect class="b" x="30" y="252" width="150" height="62"/>
 <text x="105" y="275" class="t" text-anchor="middle">Boot flash</text>
-<text x="105" y="292" class="s" text-anchor="middle">SST39VF010 · 128 KB</text>
+<text x="105" y="292" class="s" text-anchor="middle">SST39VF010 &#183; 128 KB</text>
 <text x="105" y="306" class="v" text-anchor="middle">3.3 V</text>
 
 <!-- cartridge -->
@@ -39,7 +39,7 @@
 <text x="105" y="357" class="t" text-anchor="middle">Cartridge</text>
 <text x="105" y="374" class="s" text-anchor="middle">NOR 512 KB / 1 MB</text>
 <text x="105" y="388" class="s" text-anchor="middle">+ FM18W08 FRAM (save)</text>
-<text x="105" y="402" class="v" text-anchor="middle">3.3 V · 36-pin</text>
+<text x="105" y="402" class="v" text-anchor="middle">3.3 V &#183; 37-pin</text>
 
 <!-- CPU BUS spine -->
 <line class="w" x1="200" y1="96" x2="200" y2="372"/>
@@ -52,7 +52,7 @@
 <!-- oito -->
 <rect class="oito" x="270" y="60" width="230" height="350"/>
 <text x="385" y="88" class="t" text-anchor="middle" font-size="16">oito</text>
-<text x="385" y="105" class="s" text-anchor="middle">SkyWater 130 nm · LQFP-144</text>
+<text x="385" y="105" class="s" text-anchor="middle">SkyWater 130 nm &#183; LQFP-176</text>
 <text x="385" y="120" class="v" text-anchor="middle">1.8 V core / 3.3 V I/O</text>
 <line x1="286" y1="132" x2="484" y2="132" stroke="#0e7a6c" stroke-width="1"/>
 <text x="300" y="152" class="s">▸ VDP — 2 BG planes, 128 sprites</text>
@@ -61,21 +61,21 @@
 <text x="300" y="206" class="s">▸ 16-voice APU (PSG/wave/PCM)</text>
 <text x="300" y="224" class="s">▸ cartridge mapper + address decode</text>
 <text x="300" y="242" class="s">▸ PS/2 host + joypad acquisition</text>
-<text x="300" y="260" class="s">▸ PLL: CPU, dot, MCLK</text>
+<text x="300" y="260" class="s">&#9656; PLL: CPU + dot clocks</text>
 <text x="300" y="278" class="s">▸ 2 KB boot stub (mask ROM)</text>
 <line x1="286" y1="292" x2="484" y2="292" stroke="#0e7a6c" stroke-width="1"/>
 <text x="300" y="312" class="s">bus master during PCM fetch</text>
-<text x="300" y="330" class="s">RDY / BE — wired-AND, open-drain</text>
+<text x="300" y="330" class="s">RDY — wired-AND, 3 parties (oito, probe, CPU WAI) · BE — request, not a grant</text>
 <text x="300" y="356" class="lbl">XIN/XOUT 21.47727 MHz</text>
-<text x="300" y="374" class="lbl">JTAG + DBḠ → expansion header</text>
-<text x="300" y="394" class="lbl">116 signal pins</text>
+<text x="300" y="374" class="lbl">JTAG + DBḠ + DBACK → header</text>
+<text x="300" y="394" class="lbl">127 signal pins</text>
 
 <!-- VRAM private bus -->
 <path class="wv" d="M500 150H575" marker-end="url(#ab)" marker-start="url(#ab)"/>
 <text x="537" y="142" class="lbl" text-anchor="middle">private bus</text>
 <rect class="b" x="575" y="118" width="150" height="64"/>
 <text x="650" y="141" class="t" text-anchor="middle">VRAM</text>
-<text x="650" y="158" class="s" text-anchor="middle">IS61C1024AL · 128 KB</text>
+<text x="650" y="158" class="s" text-anchor="middle">IS61WV1288 &#183; 128 KB</text>
 <text x="650" y="172" class="v" text-anchor="middle">3.3 V · 8-bit · 21.5 MHz</text>
 
 <!-- video chain -->
@@ -88,7 +88,7 @@
 
 <rect class="b" x="575" y="276" width="150" height="60"/>
 <text x="650" y="298" class="t" text-anchor="middle">CH7035B</text>
-<text x="650" y="314" class="s" text-anchor="middle">scaler → DVI-D 1080p60</text>
+<text x="650" y="314" class="s" text-anchor="middle">scaler &#8594; HDMI 1080p60 + audio</text>
 <text x="650" y="328" class="v" text-anchor="middle">1.8 V + 3.3 V</text>
 <path class="w" d="M500 300H575" marker-end="url(#a)"/>
 
@@ -101,14 +101,14 @@
 <!-- outputs -->
 <rect class="acc" x="775" y="118" width="140" height="292"/>
 <text x="845" y="140" class="t" text-anchor="middle">Outputs</text>
-<text x="845" y="164" class="s" text-anchor="middle">HDMI-A (DVI-D)</text>
+<text x="845" y="164" class="s" text-anchor="middle">HDMI (A/V)</text>
 <text x="845" y="184" class="s" text-anchor="middle">SCART RGB</text>
 <text x="845" y="204" class="s" text-anchor="middle">DE-15 15 kHz RGBHV</text>
 <text x="845" y="224" class="s" text-anchor="middle">Composite (RCA)</text>
 <text x="845" y="244" class="s" text-anchor="middle">S-Video</text>
 <line x1="790" y1="262" x2="900" y2="262" stroke="#8b929c" stroke-width="1"/>
-<text x="845" y="284" class="s" text-anchor="middle">TOSLINK S/PDIF</text>
-<text x="845" y="304" class="s" text-anchor="middle">Line-out 3.5 mm</text>
+<text x="845" y="284" class="s" text-anchor="middle">Line-out 3.5 mm</text>
+<text x="845" y="304" class="s" text-anchor="middle">RCA pair + SCART audio</text>
 <line x1="790" y1="322" x2="900" y2="322" stroke="#8b929c" stroke-width="1"/>
 <text x="845" y="344" class="s" text-anchor="middle">2× DB9 controller</text>
 <text x="845" y="364" class="s" text-anchor="middle">(PS/2 kbd/mouse</text>
@@ -118,16 +118,16 @@
 
 <!-- audio -->
 <rect class="b" x="575" y="430" width="150" height="58"/>
-<text x="650" y="452" class="t" text-anchor="middle">DIT4192 + NJM4556</text>
-<text x="650" y="468" class="s" text-anchor="middle">S/PDIF + line driver</text>
-<text x="650" y="481" class="v" text-anchor="middle">3.3 V / 5 V</text>
+<text x="650" y="452" class="t" text-anchor="middle">NJM4556AM stage</text>
+<text x="650" y="468" class="s" text-anchor="middle">filter + clamp + line driver</text>
+<text x="650" y="481" class="v" text-anchor="middle">5 V</text>
 <path class="w" d="M420 410V459H575" marker-end="url(#a)"/>
-<text x="470" y="452" class="lbl">I²S + MCLK · 2× PWM</text>
+<text x="470" y="452" class="lbl">2&#215; PWM</text>
 <path class="w" d="M725 459 Q760 459 760 300" fill="none" stroke="#334" stroke-width="1.6" marker-end="url(#a)"/>
 
 <!-- controllers -->
 <rect class="b" x="270" y="430" width="230" height="58"/>
-<text x="385" y="452" class="t" text-anchor="middle">74LVC244A · AHCT125 · BSS138</text>
+<text x="385" y="452" class="t" text-anchor="middle">74LVC244APW · AHCT125 · BSS138</text>
 <text x="385" y="468" class="s" text-anchor="middle">port front-end (5 V ↔ 3.3 V)</text>
 <text x="385" y="481" class="v" text-anchor="middle">5 V / 3.3 V</text>
 <path class="w" d="M385 410V430" marker-end="url(#a)"/>
@@ -135,15 +135,15 @@
 
 <!-- probe -->
 <rect class="acc" x="30" y="430" width="220" height="58"/>
-<text x="140" y="452" class="t" text-anchor="middle">Expansion header (40-pin)</text>
-<text x="140" y="468" class="s" text-anchor="middle">→ RP2350B debug probe</text>
+<text x="140" y="452" class="t" text-anchor="middle">Expansion header (42-pin)</text>
+<text x="140" y="468" class="s" text-anchor="middle">→ RP2350B + isolated RX/drive logic</text>
 <text x="140" y="481" class="s" text-anchor="middle">accessory, ≤300 mA @3.3 V</text>
 <path class="w" d="M200 372V459H250" marker-end="url(#a)"/>
 
 <!-- power -->
 <rect class="b" x="30" y="520" width="885" height="66"/>
 <text x="52" y="543" class="t">Power tree</text>
-<text x="52" y="562" class="s">9 V DC in → buck 5 V → buck 3.3 V → LDO 1.8 V (+ ferrite-filtered 1.8 V analog for oito and CH7035B PLLs)</text>
+<text x="52" y="562" class="s">12 V DC in &#8594; buck 5 V &#8594; buck 3.3 V &#8594; LDO 1.8 V (+ ferrite-filtered 1.8 V analog for oito and CH7035B PLLs)</text>
 <text x="52" y="578" class="s">Voltage supervisor holds CPU RES̄, oito RES̄ and CH7035B RESETB until all rails are stable; re-asserts on brownout.</text>
 <text x="700" y="543" class="v">5 V · 3.3 V · 1.8 V</text>
 <text x="700" y="562" class="s">~3–5 W, passively cooled</text>
